@@ -27,9 +27,14 @@ function loadGeoJSON() {
     }
 }
 function loadURL() {
-    var feat = readURLFromTA();
-    var gLayer = L.geoJson(feat);
-    gLayer.addTo(map);
+    try {
+        var feat = readURLFromTA();
+        var gLayer = L.geoJson(feat);
+        gLayer.addTo(map);
+    }
+        catch {
+            alert("Bitte korrekte URL eingeben")
+        }
 }
 
 /**
@@ -39,7 +44,8 @@ function loadURL() {
 function deleteLayer() {
     drawnItems.clearLayers();
     alert("Alles gelöscht")
-    }
+    $("#delete").prop("disabled",true);
+    $("#download").prop("disabled",true);
 }
 
 /**
@@ -67,12 +73,12 @@ function saveToDatabase() {
     
 
     if(textfield.length==0) {
-        alert("Error: Please fill in a name");
+        alert("Bitte Name eingeben");
     }   else {
         var data = drawnItems.toGeoJSON();
         var dbObject = new databaseobject(textfield, "",imageurl);
         dbObject.json = JSON.stringify(data);
-        alert("Object successfull saved!");
+        alert("Object erfolgreich gespeichert!");
         $.ajax({
             type: 'POST',
             data: dbObject,

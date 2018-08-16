@@ -86,4 +86,6 @@ map.on('draw:created', function(e) {
 
     $('button#download').attr("disabled", false);
     drawnItems.addLayer(layer);
+    $('button#delete').attr("disabled", false);
+    drawnItems.addLayer(layer);
 });
