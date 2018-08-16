@@ -32,9 +32,9 @@ function loadURL() {
         var gLayer = L.geoJson(feat);
         gLayer.addTo(map);
     }
-        catch {
+    catch {
             alert("Bitte korrekte URL eingeben")
-        }
+    }
 }
 
 /**
