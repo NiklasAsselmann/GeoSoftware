@@ -1,0 +1,33 @@
+head
+  title= title
+  //- jQuery
+  link(rel='stylesheet', href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+  script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+  //- bootstrap
+  link(rel='stylesheet' href='libs/bootstrap/css/bootstrap.min.css')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js' integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy' crossorigin='anonymous')
+  //- leaflet
+  link(rel='stylesheet', href='https://unpkg.com/leaflet@1.0.2/dist/leaflet.css')
+  script(src='https://unpkg.com/leaflet@1.0.2/dist/leaflet.js')
+  //- leaflet draw
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js')
+  //- Leaflet FullScreen
+  link(rel='stylesheet', href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css')
+  script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js')
+  //- stylesheet
+  link(rel='stylesheet', href='stylesheets/style.css')
+  nav.navbar.navbar-inverse.navbar-fixed-top
+    .container-fluid
+      .navbar-header
+        a.navbar-brand GeoSoft I – Endabgabe
+      ul.nav.navbar-nav
+        li
+          a(href='/') Home
+        li
+          a(href='/map') Map
+        li
+          a(href='/impressum') Impressum
+body
+  block content
