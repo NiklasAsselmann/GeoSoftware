@@ -30,16 +30,6 @@ var streets = L.tileLayer(mapboxURL, {
         accessToken: token
     });
 
-/* 
- * Add the basemaps to the layercontrol.
- */
-var baseMaps = {
-    "Streets": streets,
-    "Outdoors": outdoors,
-    "Satellite": satellite
-};
-var overlayMaps = [];
-var lcontrol = L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 /*
  * Add fullscreen control.
@@ -51,6 +41,20 @@ map.addControl(new L.Control.Fullscreen());
  */
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
+var overlayMaps = {
+    "Overlay": drawnItems
+}
+
+/* 
+ * Add the basemaps to the layercontrol.
+ */
+var baseMaps = {
+    "Streets": streets,
+    "Outdoors": outdoors,
+    "Satellite": satellite
+};
+
+var lcontrol = L.control.layers(baseMaps, overlayMaps).addTo(map);
 map.addControl(new L.Control.Draw({
     edit: {
         featureGroup: drawnItems,

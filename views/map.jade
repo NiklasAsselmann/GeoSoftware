@@ -4,14 +4,13 @@ block content
   .container-fluid.fill-height
     .row.toolbar
       .col-xs-12.col-sm-9.small
-        .btn-group.btn-group-xs(role='group', aria-label='...')
-          button#download.btn.btn-danger.btn-xs(type='button', aria-hidden='true', onclick='saveToDatabase()', disabled='disabled')
+        .btn-group.btn-group-xl(role='group', aria-label='...')
+          button#download.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='saveToDatabase()', disabled='disabled')
             span.glyphicon.glyphicon-save(aria-hidden='true')
             span  In Datenbank speichern
-          button#delete.btn.btn-danger.btn-xs(type='button', aria-hidden='true', onclick='deleteLayer()', disabled='disabled')
+          button#delete.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='deleteLayer()')
             span.glyphicon.glyphicon-remove-circle(aria-hidden='true')
-            span  Loesche GeoJSON-Schicht
-          textarea#GeoJSONname.form-control(rows='1', placeholder='Hier Name einfuegen')
+            span  Enferne Polygone
     .row
       #resizable.col-xs-12.col-sm-9
         .panel.panel-danger
@@ -25,7 +24,7 @@ block content
             h3.panel-title Institut hinzufügen
           .panel-body
             .form-group
-              label(for='geojson-area') Institutsname
+              label(for='institutsname-area') Institutsname
               textarea#institutsname-area.form-control(rows='1', placeholder='Hier Institutsnamen einfuegen')
             .form-group
               label(for='geojson-area') GeoJSON

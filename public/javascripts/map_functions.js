@@ -17,9 +17,14 @@ function readURLFromTA() {
 *@desc add and load the read GeoJSON/URL on the map
 */
 function loadGeoJSON() {
+    try {
     var feat = readGeoJSONFromTA();
     var gLayer = L.geoJson(feat);
     gLayer.addTo(map);
+}
+    catch {
+        alert("Bitte korrektes GeoJSON eingeben")
+    }
 }
 function loadURL() {
     var feat = readURLFromTA();
@@ -33,6 +38,8 @@ function loadURL() {
 */
 function deleteLayer() {
     drawnItems.clearLayers();
+    alert("Alles gelöscht")
+    }
 }
 
 /**
@@ -54,7 +61,7 @@ class databaseobject {
  * @desc makes an AJAX post request with the data to later store it in the database
  */
 function saveToDatabase() {
-    var textfield = document.getElementById('GeoJSONname').value; 
+    var textfield = document.getElementById('institutsname-area').value; 
     var imageurl = document.getElementById('imageurl-area').value; 
     //console.log(textfield);
     
