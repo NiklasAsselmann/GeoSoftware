@@ -5,9 +5,6 @@ block content
     .row.toolbar
       .col-xs-12.col-sm-9.small
         .btn-group.btn-group-xl(role='group', aria-label='...')
-          button#download.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='saveToDatabase()', disabled='disabled')
-            span.glyphicon.glyphicon-save(aria-hidden='true')
-            span  In Datenbank speichern
           button#delete.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='deleteLayer()', disabled='disabled')
             span.glyphicon.glyphicon-remove-circle(aria-hidden='true')
             span  Enferne Polygone
@@ -43,6 +40,29 @@ block content
             .form-group
               label(for='imageurl-area') Image-URL
               textarea#imageurl-area.form-control(rows='1', placeholder='Hier Image-URL einfuegen')
+              .form-group 
+              button#download.btn.btn-danger.btn(type='button', onclick='saveToDatabase()', disabled='disabled')
+                span.glyphicon.glyphicon-save()
+           panel
+          .panel-heading
+            h3.panel-title Neue Fachschaft hinzufuegen
+          .panel-body
+            .form-group
+              label(for='FSname') Name
+              textarea#FSname.form-control(rows='1', placeholder='Hier Name einfuegen')
+            .form-group
+              label(for='abk') Abkuerzung
+              textarea#abk.form-control(rows='1', placeholder='Hier Abk einfuegen')
+            .form-group
+              label(for='FSurl-area') Webseite
+              textarea#FSurl-area.form-control(rows='1', placeholder='Hier URL einfuegen')
+            .form-group
+              label(for='institute') Institute
+              textarea#institute.form-control(rows='1', placeholder='Hier Institute einfuegen')
+            .form-group
+              button#download.btn.btn-danger.btn(type='button', onclick='saveToDatabase()', disabled='disabled')
+                span.glyphicon.glyphicon-save()
+
   // /.container
   script(src='javascripts/map.js')
   script(src='javascripts/map_functions.js')
