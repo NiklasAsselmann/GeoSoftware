@@ -41,26 +41,26 @@ block content
               label(for='imageurl-area') Image-URL
               textarea#imageurl-area.form-control(rows='1', placeholder='Hier Image-URL einfuegen')
               .form-group 
-              button#download.btn.btn-danger.btn(type='button', onclick='saveToDatabase()', disabled='disabled')
+              button#download.btn.btn-danger.btn(type='button', onclick='saveINToDatabase()', disabled='disabled')
                 span.glyphicon.glyphicon-save()
            panel
           .panel-heading
-            h3.panel-title Neue Fachschaft hinzufuegen
+            h3.panel-title Neuen Fachbereich hinzufuegen
           .panel-body
             .form-group
-              label(for='FSname') Name
-              textarea#FSname.form-control(rows='1', placeholder='Hier Name einfuegen')
+              label(for='FBname') Name
+              textarea#FBname.form-control(rows='1', placeholder='Hier Name einfuegen')
             .form-group
               label(for='abk') Abkuerzung
               textarea#abk.form-control(rows='1', placeholder='Hier Abk einfuegen')
             .form-group
-              label(for='FSurl-area') Webseite
-              textarea#FSurl-area.form-control(rows='1', placeholder='Hier URL einfuegen')
+              label(for='FBurl-area') Webseite
+              textarea#FBurl-area.form-control(rows='1', placeholder='Hier URL einfuegen')
             .form-group
               label(for='institute') Institute
               textarea#institute.form-control(rows='1', placeholder='Hier Institute einfuegen')
             .form-group
-              button#download.btn.btn-danger.btn(type='button', onclick='saveToDatabase()', disabled='disabled')
+              button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()', disabled='disabled')
                 span.glyphicon.glyphicon-save()
 
   // /.container

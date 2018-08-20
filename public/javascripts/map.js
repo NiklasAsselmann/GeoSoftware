@@ -35,7 +35,6 @@ var streets = L.tileLayer(mapboxURL, {
  * Add fullscreen control.
  */
 map.addControl(new L.Control.Fullscreen());
-
 /* 
  * Add leaflet draw control features.
  */
@@ -88,4 +87,9 @@ map.on('draw:created', function(e) {
     drawnItems.addLayer(layer);
     $('button#delete').attr("disabled", false);
     drawnItems.addLayer(layer);
+});
+
+$(document).ready(function(){
+    getCurrentDate();
+    loadMensen();
 });
