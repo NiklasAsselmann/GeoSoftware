@@ -1,26 +1,9 @@
 'use strict';
-
-/**
-* @desc Reads the geojson/URL
-*/
-function readGeoJSONFromTA() {
-    return JSON.parse($('textarea#geojson-area')[0].value);
-}
-
-function readURLFromTA() {
-    var url = document.getElementById('url-area').value;
-    fetch(url)
-    .then(response => response.json())
-    .then(json => {
-        JASON = json;
-        }
-    )
-}
 /**
 *@desc add and load the read GeoJSON/URL on the map
 */
 function loadGeoJSON() {
-    var feat = readGeoJSONFromTA();
+    var feat = readGeoJSONFromTA()
     var bild = feat.features[0].properties.img;
     var iname = feat.features[0].properties.name;
     var laylay = L.geoJson(feat);
@@ -64,88 +47,6 @@ function loadURL() {
         }
         })
 
-}
-
-/**
-* @desc Deletes the layer 
-* source: https://bl.ocks.org/danswick/d30c44b081be31aea483
-*/
-function deleteLayer() {
-    drawnItems.clearLayers();
-    alert("Alles gelöscht")
-    $("#delete").prop("disabled",true);
-    $("#download").prop("disabled",true);
-}
-
-/**
-* represent a Institut in the database
-*/
-class INdatabaseobject {
-    constructor(name, json, pic) {
-      this.name = name;
-      this.json = json;
-      this.picture = pic;
-    }
-}
-
-/**
-* represent a Fachbereich in the database
-*/
-class FBdatabaseobject {
-    constructor(name, abkürzung, website,institute) {
-      this.name = name;
-      this.abkürzung = abkürzung;
-      this.website = website;
-      this.name= institute
-    }
-}
-
-function saveINToDatabase() {
-    var textfield = document.getElementById('institutsname-area').value;  
-    var image = document.getElementById('imageurl-area').value;     
-    if(textfield.length==0) {
-        alert("Bitte Namen eingeben");
-    }   else {
-        var data = drawnItems.toGeoJSON();
-        var dbObject = new INdatabaseobject(textfield, "",image);
-        dbObject.json = JSON.stringify(data);
-        console.log(dbObject);
-        $.ajax({
-            type: 'POST',
-            data: dbObject,
-            url: "./start",
-            success: function(result){
-                $('#error').html("Objekt gespeichert");
-            },
-            error: function(xhr,status,error){
-                $('#error').html("Ups");
-            }
-        });
-    }
-}
-
-function saveFBToDatabase() {
-    var textfield = document.getElementById('FBname').value;    
-    console.log(textfield);
-    var abk = document.getElementById('abk').value;
-    var url = document.getElementById('FBurl-area').value;
-    var institute = document.getElementById('institute').value;
-    if(textfield.length==0) {
-        alert("Bitte Namen eingeben");
-    }   else {
-        var dbObject = new FBdatabaseobject(textfield,abk,url,institute);
-        $.ajax({
-            type: 'POST',
-            data: dbObject,
-            url: "./start",
-            success: function(result){
-                $('#error').html("Objekt gespeichert");
-            },
-            error: function(xhr,status,error){
-                $('#error').html("Ups");
-            }
-        });
-    }
 }
 
 function coordinateMean(GeoJSON){
@@ -199,23 +100,17 @@ function loadMensen() {
                     return response.json() 
                 } else {
                     L.marker([mensa.coordinates[0], mensa.coordinates[1]]).addTo(map)
-                        .bindPopup("<h4>"+mensa.name+"  "+"</h4><p><em>"+mensa.address+"</em></p>")
+                        .bindPopup(mensa.name+"<br>"+mensa.address+"<br>"+"Heute leider geschlossen")
                 }
             })
             .then((json)=>{
                 var gerichte=""
                 json.map((gericht)=>{
-                    gerichte+="<ins>"+gericht.category+"</ins>: "+gericht.name+" [Studenten: "+gericht.prices.students+"€, Mitarbeiter: "+gericht.prices.employees+"€, Andere: "+gericht.prices.others+"€]<br><br>"
+                    gerichte+=gericht.category+":"+"<br>"+gericht.name+"<br>"+gericht.prices.students+"€ | "+gericht.prices.employees+"€ | "+gericht.prices.others+"€<br>"
                 })
                 L.marker([mensa.coordinates[0], mensa.coordinates[1]]).addTo(map)
-                    .bindPopup("<h4>"+mensa.name+"  "+"</h4><em>"+mensa.address+"</em><br><h5>Tagesgerichte:</h5>"+gerichte);
+                    .bindPopup(mensa.name+"<br>"+mensa.address+"<br>"+gerichte);
             })
         })
     })
-}
-/**
-*@desc Helper function, removes element it's invoked by from DOM
-*/
-function destroyClickedElement(event) {
-    document.body.removeChild(event.target);
 }

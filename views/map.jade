@@ -48,22 +48,38 @@ block content
             h3.panel-title Neuen Fachbereich hinzufuegen
           .panel-body
             .form-group
-              label(for='FBname') Name
-              textarea#FBname.form-control(rows='1', placeholder='Hier Name einfuegen')
+              label(for='FBname') Name+Abkürzung
+              select#FBname.form-control(name="Fachbereiche")
+                option(selected disabled) Wähle deinen Fachbereich
+                option(value="Evangelisch-Theologische Fakultät(FB1)") Evangelisch-Theologische Fakultät(FB1)
+                option(value="Katholisch-Theologische Fakultät(FB2)") Katholisch-Theologische Fakultät(FB2)
+                option(value="Rechtswissenschaftliche Fakultät(FB3)") Rechtswissenschaftliche Fakultät(FB3)
+                option(value="Wirtschaftwissenschaftliche Fakultät(FB4)") Wirtschaftwissenschaftliche Fakultät(FB4)
+                option(value="Medizinische Fakultät(FB5)") Medizinische Fakultät(FB5)
+                option(value="Erziehungswissenschaft und Sozialwissenschaften(FB6)") Erziehungswissenschaft und Sozialwissenschaften(FB6)
+                option(value="Psychologie und Sportwissenschaften(FB7)") Psychologie und Sportwissenschaften(FB7)
+                option(value="Geschichte/Philosophie(FB8)") Geschichte/Philosophie(FB8)
+                option(value="Philologie(FB9)") Philologie(FB9)
+                option(value="Mathematik und Informatik(FB10)") Mathematik und Informatik(FB10)
+                option(value="Physik(FB11)") Physik(FB11)
+                option(value="Chemie und Pharmazie(FB12)") Chemie und Pharmazie(FB12)
+                option(value="Biologie(FB13)") Biologie(FB13)
+                option(value="Geowissenschaften(FB14)") Geowissenschaften(FB14)
+                option(value="Musikhochschule(FB15)") Musikhochschule(FB15)
             .form-group
-              label(for='abk') Abkuerzung
-              textarea#abk.form-control(rows='1', placeholder='Hier Abk einfuegen')
-            .form-group
-              label(for='FBurl-area') Webseite
+              label(for='FBurl-area') Webseite(n)
               textarea#FBurl-area.form-control(rows='1', placeholder='Hier URL einfuegen')
             .form-group
-              label(for='institute') Institute
+              label(for='institute') Institut(e)
               textarea#institute.form-control(rows='1', placeholder='Hier Institute einfuegen')
             .form-group
-              button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()', disabled='disabled')
+              button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()')
                 span.glyphicon.glyphicon-save()
 
   // /.container
   script(src='javascripts/map.js')
-  script(src='javascripts/map_functions.js')
+  script(src='javascripts/read_functions.js')
+  script(src='javascripts/load_functions.js')
+  script(src='javascripts/save_functions.js')
+  script(src='javascripts/delete_functions.js')
   script(src='javascripts/resize.js')
