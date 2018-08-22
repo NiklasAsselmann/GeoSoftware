@@ -92,14 +92,14 @@ map.on('draw:created', function(e) {
 var control = L.Routing.control({
   router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
   waypoints: [
-    L.latLng(57.74, 11.94),
-    L.latLng(57.6792, 11.949)
+    L.latLng("",""),
+    L.latLng("","")
   ],
   routeWhileDragging: true
 }).addTo(map);
 
 /* 
- * Laden von getCurrentDate und loadMensen zum Anzeigen der Mensen direkt beim Laden der Seite
+ * Load getCurrentDate and loadMensen to make the Mensas visible when the page is ready
  */
 $(document).ready(function(){
     getCurrentDate();

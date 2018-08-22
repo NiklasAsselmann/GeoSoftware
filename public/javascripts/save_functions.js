@@ -1,6 +1,6 @@
 'use strict';
 /**
-* repräsentiert ein Institutobjekt in der Datenbank
+* represents a Institutobjekt in the database
 */
 class INdatabaseobject {
     constructor(name, json, pic) {
@@ -9,9 +9,8 @@ class INdatabaseobject {
       this.picture = pic;
     }
 }
-
 /**
-* repräsentiert ein Fachbreich in der Datenbank
+* represents a Fachbreich in the database
 */
 class FBdatabaseobject {
     constructor(name, website,institute) {
@@ -20,9 +19,8 @@ class FBdatabaseobject {
       this.institute= institute
     }
 }
-
 /**
-* speichert ein Institut in der Datenbank
+* save an Institut in the database
 */
 function saveINToDatabase() {
     var textfield = document.getElementById('institutsname-area').value;  
@@ -49,9 +47,8 @@ function saveINToDatabase() {
         });
     }
 }
-
 /**
-* speichert einen Fachbereich in der Datenbank
+* save a Fachbereich in the database
 */
 function saveFBToDatabase() {
     var name =document.getElementById('FBname').value; 
@@ -85,3 +82,47 @@ function saveFBToDatabase() {
         }
     }
 }
+/**
+* get all Waypoints from the current route
+*/
+function getAllPoint(){
+    var returnArray = [];
+        for (var i = 0; i < control.getWaypoints().length; i++) {
+          returnArray.push(control.getWaypoints()[i].latLng);
+        };
+      return returnArray;
+}
+/**
+* represents a Route in the database
+*/
+class Routedatabaseobject {
+    constructor(name, json,) {
+      this.name = name;
+      this.json = json;
+    }
+}
+/**
+* save a Route in the database
+*/
+function saveRouteToDatabase() {
+    var textfield = document.getElementById("routenname").value;
+    if(textfield.length==0) {
+    alert("Bitte Namen eingeben");
+    }  else {
+      var data = getAllPoint();
+      var dbObject = new Routedatabasobject(name,"");
+      dbObject.json = JSON.stringify(data);
+      $.ajax({
+        type: 'POST',
+        data: dbObject,
+        url: "./start",
+        success: function(result){
+            $('#error').html("Objekt gespeichert");
+        },
+        error: function(xhr,status,error){
+            $('#error').html("Ups");
+        }
+    });
+    }
+  }
+

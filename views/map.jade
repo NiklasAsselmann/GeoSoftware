@@ -8,6 +8,14 @@ block content
           button#delete.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='deleteLayer()', disabled='disabled')
             span.glyphicon.glyphicon-remove-circle(aria-hidden='true')
             span  Enferne Polygone
+          .btn-group.btn-group-xl(role='group', aria-label='...')
+          button#route.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='saveRouteToDatabase()')
+            span.glyphicon.glyphicon-download(aria-hidden='true')
+            span  Speicher Route
+          textarea#routenname.form-control(rows='1', placeholder='Hier Routenname einfuegen')
+          button#route.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='NavigierzuMensa()')
+            span.glyphicon.glyphicon-download(aria-hidden='true')
+            span  Navigier zur Mensa
     .row
       #resizable.col-xs-12.col-sm-9
         .panel.panel-danger
@@ -82,4 +90,5 @@ block content
   script(src='javascripts/load_functions.js')
   script(src='javascripts/save_functions.js')
   script(src='javascripts/delete_functions.js')
+  script(src='javascripts/route-interact.js')
   script(src='javascripts/resize.js')

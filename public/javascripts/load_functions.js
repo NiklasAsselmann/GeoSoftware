@@ -1,6 +1,6 @@
 'use strict';
 /**
-*@desc hinzufügen und laden der eingelesenen GeoJSON/URL zur Karte
+*@desc adding and loading from GeoJSON/URL to Map
 */
 function loadGeoJSON() {
     var feat = readGeoJSONFromTA()
@@ -70,7 +70,7 @@ function coordinateMean(GeoJSON){
 }
 
 /**
-* CurrentDate Funktion, Credit to: "https://stackoverflow.com/users/525895/samuel-meddows"
+* CurrentDate Function, Credit to: "https://stackoverflow.com/users/525895/samuel-meddows"
 */
 
 var date
@@ -90,7 +90,7 @@ function getCurrentDate(){
 }
 
 /**
-* Laden der Mensen in MS und Anzeigen dieser mit Tagesgerichten auf Karte
+* Load all Mensas in MS with their Tagesgericht
 */
 function loadMensen() {
     var Mensaurl = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
@@ -121,9 +121,12 @@ function loadMensen() {
         })
     })
 }
-
-function NavigierzuMensa(){
+/**
+* Show the Route to the nearest Mensa for a given Institut
+*/
+function NavToMensa(INdatabaseobject){
     var Mensen
+    var Mensen2
     var Abstand=[]
     var ID=[]
     var url = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
@@ -131,20 +134,30 @@ function NavigierzuMensa(){
     .then(response => response.json())
     .then(json => {
         Mensen = json
-        var index = 0
+        var index = 1
         Mensen.map((mensa)=>{
-            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],51.9629731,7.625654)
+            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],INdatabaseobject.coordinates[0], INdatabaseobject.coordinates[1])
             ID[index]=mensa.id
             index= index+1
-            console.log(Abstand[index])
         })
     })
-    var Identifikation= Math.min(Abstand)
-    var url2 = "http://openmensa.org/api/v2/canteens/"+Identifikation
+    console.log(Abstand)
+    Array.min = function( Abstand ){
+        return Math.min.apply( Math, Abstand );
+    };
+    var value = Abstand.min;
+    console.log(value)
+    var key = Abstand.indexOf(value);
+    console.log(key)
+    var url2 = "http://openmensa.org/api/v2/canteens/"+ID[key]
     fetch(url2)
     .then(response => response.json())
     .then(json => {
         Mensen2 = json
+        control.setWaypoints([
+            L.latLng(mensa.coordinates[0],mensa.coordinates[1]),
+            L.latLng(INdatabaseobject.coordinates[0], INdatabaseobject.coordinates[1])
+          ]);
     })
 }
 
@@ -160,3 +173,17 @@ function distance(lat1, lon1, lat2, lon2) {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 
+function loadFromDatabase(nameVonObejkt){
+    $.ajax({
+      type: 'GET',
+      data: {"name":nameVonObejkt},
+      url: "./load",
+      success: function(result){
+        var route = JSON.parse(result.route);
+        control.setWaypoints([
+          L.latLng(route[0].lat, route[0].lng),
+          L.latLng(route[1].lat, route[1].lng)
+        ]);
+      }
+    });
+  }
