@@ -1,6 +1,6 @@
 'use strict';
 /**
-* represent a Institut in the database
+* repräsentiert ein Institutobjekt in der Datenbank
 */
 class INdatabaseobject {
     constructor(name, json, pic) {
@@ -11,7 +11,7 @@ class INdatabaseobject {
 }
 
 /**
-* represent a Fachbereich in the database
+* repräsentiert ein Fachbreich in der Datenbank
 */
 class FBdatabaseobject {
     constructor(name, website,institute) {
@@ -21,6 +21,9 @@ class FBdatabaseobject {
     }
 }
 
+/**
+* speichert ein Institut in der Datenbank
+*/
 function saveINToDatabase() {
     var textfield = document.getElementById('institutsname-area').value;  
     var image = document.getElementById('imageurl-area').value;   
@@ -47,6 +50,9 @@ function saveINToDatabase() {
     }
 }
 
+/**
+* speichert einen Fachbereich in der Datenbank
+*/
 function saveFBToDatabase() {
     var name =document.getElementById('FBname').value; 
     var url = document.getElementById('FBurl-area').value;

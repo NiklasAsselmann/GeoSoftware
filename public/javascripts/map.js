@@ -1,16 +1,16 @@
 'use strict';
 
 /**
- * @file This script sets up the Leaflet map
+ * @file Aufsetzten der Leaflet Karte
  */
 
 /* 
- * Setting up the three base layers.
+ * Aufsetzten der drei Base Layers.
  */
 var geoJSONDrawn = "";
 var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
 var token = 'pk.eyJ1IjoiaG9lbHNjaCIsImEiOiJxblpwakZrIn0.JTTnLszkIJB11k8YEe7raQ';
-var map = L.map('map').setView([51.963621,7.615891], 13); // the map with the start Coordinats
+var map = L.map('map').setView([51.963621,7.615891], 13); // Startkoordinaten
 var streets = L.tileLayer(mapboxURL, {
         attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/feedback/' target='_blank'>Improve this map</a></strong>",
         maxZoom: 18,
@@ -32,11 +32,11 @@ var streets = L.tileLayer(mapboxURL, {
 
 
 /*
- * Add fullscreen control.
+ * Fullscreen control.
  */
 map.addControl(new L.Control.Fullscreen());
 /* 
- * Add leaflet draw control features.
+ * Leaflet draw control features.
  */
 var drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
@@ -45,7 +45,7 @@ var overlayMaps = {
 }
 
 /* 
- * Add the basemaps to the layercontrol.
+ * Hinzufügen der Basemaps zur Layercontrol.
  */
 var baseMaps = {
     "Streets": streets,
@@ -89,6 +89,9 @@ map.on('draw:created', function(e) {
     drawnItems.addLayer(layer);
 });
 
+/* 
+ * Laden von getCurrentDate und loadMensen zum Anzeigen der Mensen direkt beim Laden der Seite
+ */
 $(document).ready(function(){
     getCurrentDate();
     loadMensen();

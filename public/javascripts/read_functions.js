@@ -1,7 +1,7 @@
 'use strict';
 
 /**
-* @desc Reads the geojson/URL
+* @desc ließt die geojson/URL und gibt die JSON Datei zurück
 */
 function readGeoJSONFromTA() {
     return JSON.parse($('textarea#geojson-area')[0].value);
