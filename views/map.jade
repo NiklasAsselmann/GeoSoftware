@@ -8,14 +8,6 @@ block content
           button#delete.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='deleteLayer()', disabled='disabled')
             span.glyphicon.glyphicon-remove-circle(aria-hidden='true')
             span  Enferne Polygone
-          .btn-group.btn-group-xl(role='group', aria-label='...')
-          button#route.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='saveRouteToDatabase()')
-            span.glyphicon.glyphicon-download(aria-hidden='true')
-            span  Speicher Route
-          textarea#routenname.form-control(rows='1', placeholder='Hier Routenname einfuegen')
-          button#route.btn.btn-danger.btn-xl(type='button', aria-hidden='true', onclick='NavigierzuMensa()')
-            span.glyphicon.glyphicon-download(aria-hidden='true')
-            span  Navigier zur Mensa
     .row
       #resizable.col-xs-12.col-sm-9
         .panel.panel-danger
@@ -23,6 +15,29 @@ block content
             h3.panel-title Map
           .panel-body
             #map
+        .panel.panel-danger
+          .panel-heading
+            h3.panel-title Laden
+          .panel-body
+            label(for='institutload-area',style="color:white;") Institut
+            textarea#institutload-area.form-control(rows='1', placeholder='Hier Institutsname einfügen')
+            label(for='fachbereichload-area',style="color:white;") Fachbereich
+            textarea#fachbereichload-area.form-control(rows='1', placeholder='Hier Fachbereichsnamen einfügen')
+            label(for='routenload-area',style="color:white;") Route
+            textarea#routenload-area.form-control(rows='1', placeholder='Hier Routennamen einfügen')
+            .form-group
+            button.btn.btn-danger(onclick='loadINFromDatabase()')
+                span
+                |  Institut laden
+            button.btn.btn-danger(onclick='loadFBFromDatabase()')
+                span
+                |  Fachbereich laden
+            button.btn.btn-danger(onclick='loadRouteFromDatabase()')
+               span
+                |  Route laden
+            .form-group    
+            label(style="color:white;") geladener Fachbereich
+            pre#loadedFB
       #mirror.col-xs-12.col-sm-3
         .panel.panel-danger
           .panel-heading
@@ -30,30 +45,30 @@ block content
           .panel-body
             .form-group
               label(for='institutsname-area') Institutsname
-              textarea#institutsname-area.form-control(rows='1', placeholder='Hier Institutsnamen einfuegen')
+              textarea#institutsname-area.form-control(rows='1', placeholder='Hier Institutsnamen einfügen')
             .form-group
               label(for='geojson-area') GeoJSON
-              textarea#geojson-area.form-control(rows='3', placeholder='Hier Text einfuegen')
+              textarea#geojson-area.form-control(rows='3', placeholder='Hier Text einfügen')
             .form-group
               button.btn.btn-danger(onclick='loadGeoJSON()')
                 span
                 |  Zeige auf Map
             .form-group
               label(for='url-area') URL
-              textarea#url-area.form-control(rows='1', placeholder='Hier URL einfuegen')
+              textarea#url-area.form-control(rows='1', placeholder='Hier URL einfügen')
             .form-group
               button.btn.btn-danger(onclick='loadURL()')
                 span
                 |  Zeige auf Map   
             .form-group
               label(for='imageurl-area') Image-URL
-              textarea#imageurl-area.form-control(rows='1', placeholder='Hier Image-URL einfuegen')
+              textarea#imageurl-area.form-control(rows='1', placeholder='Hier Image-URL einfügen')
               .form-group 
               button#download.btn.btn-danger.btn(type='button', onclick='saveINToDatabase()', disabled='disabled')
                 span.glyphicon.glyphicon-save()
            panel
           .panel-heading
-            h3.panel-title Neuen Fachbereich hinzufuegen
+            h3.panel-title Neuen Fachbereich hinzufügen
           .panel-body
             .form-group
               label(for='FBname') Name+Abkürzung // 
@@ -76,13 +91,29 @@ block content
                 option(value="Musikhochschule(FB15)") Musikhochschule(FB15)
             .form-group
               label(for='FBurl-area') Webseite(n)
-              textarea#FBurl-area.form-control(rows='1', placeholder='Hier URL einfuegen')
+              textarea#FBurl-area.form-control(rows='1', placeholder='Hier URL einfügen')
             .form-group
               label(for='institute') Institut(e)
-              textarea#institute.form-control(rows='1', placeholder='Hier Institute einfuegen')
+              textarea#institute.form-control(rows='1', placeholder='Hier Institute einfügen')
             .form-group
-              button#download.btn.btn-danger.btn(type='button', onclick='NavigierzuMensa()')
+              button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()')
                 span.glyphicon.glyphicon-save()
+          .panel-heading
+            h3.panel-title Neue Route hinzufügen
+          .panel-body
+            .form-group
+              label(for='routenname-area') Routenname
+              textarea#routenname-area.form-control(rows='1', placeholder='Hier Routenname einfügen')
+            .form-group
+              label(for='routenstart-area') Routenstart
+              textarea#routenstart-area.form-control(rows='1', placeholder='Hier Routenstart einfügen')
+            .form-group
+              label(for='routenziel-area') Routenziel
+              textarea#routenziel-area.form-control(rows='1', placeholder='Hier Routenziel einfügen')
+            .form-group
+              button#download.btn.btn-danger.btn(type='button', onclick='saveRouteToDatabase()')
+                span.glyphicon.glyphicon-save()
+
 
   // /.container
   script(src='javascripts/map.js')
@@ -90,5 +121,4 @@ block content
   script(src='javascripts/load_functions.js')
   script(src='javascripts/save_functions.js')
   script(src='javascripts/delete_functions.js')
-  script(src='javascripts/route-interact.js')
   script(src='javascripts/resize.js')

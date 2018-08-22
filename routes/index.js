@@ -35,14 +35,21 @@ router.get('/jsonlist', function(req, res) {
 router.get('/:id', function(req, res) {
   var db = req.db;
   var collection = db.get('geojsons');
-  var db = req.db;
-  var collection = db.get('geojsons');
   var json;
-  collection.find({"_id": req.params.id},{},function(e,docs){
+  collection.find({name: req.params.id},{},function(e,docs){
       // text is the json-string
-      res.render('object', { title: 'Object: ' + docs[0].name, id: req.params.id,
-      text: JSON.stringify(docs[0].json), name: docs[0].name
-      });
+      if(res.send(docs).length==0){
+        res.send("Error")
+      }
+      if(res.send(docs).length==1){ 
+             res.send(docs)
+        }
+      if(res.send(docs).length>1){
+        res.send("Error")
+      }
+    // res.render('object', { title: 'Object: ' + docs[0].name, id: req.params.id,
+      //text: JSON.stringify(docs[0].json), name: docs[0].name
+      //});
   });
 });
 
@@ -51,6 +58,7 @@ router.get('/:id', function(req, res) {
 * sending the data of the request to the database collection 'geojsons'
 */
 router.post('/start', function(req, res) {
+  console.log(req.params)
   var db = req.db;
   var document = req.body;
   db.collection('geojsons').insert(document, function(err, result) {

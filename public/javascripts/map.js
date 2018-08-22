@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * @file Aufsetzten der Leaflet Karte
+ * @file Adding of Leaflet Map
  */
 
 /* 
- * Aufsetzten der drei Base Layers.
+ * Create threee Base Layers.
  */
 var geoJSONDrawn = "";
 var mapboxURL = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
@@ -45,7 +45,7 @@ var overlayMaps = {
 }
 
 /* 
- * Hinzufügen der Basemaps zur Layercontrol.
+ * Add Basemaps to Layercontrol.
  */
 var baseMaps = {
     "Streets": streets,
@@ -90,13 +90,14 @@ map.on('draw:created', function(e) {
 });
 
 var control = L.Routing.control({
-  router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
-  waypoints: [
-    L.latLng("",""),
-    L.latLng("","")
-  ],
-  routeWhileDragging: true
-}).addTo(map);
+    router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
+    //-waypoints: [
+    //-  L.latLng("",""),
+    //-  L.latLng("","")
+    //-],
+    routeWhileDragging: true,
+    geocoder: L.Control.Geocoder.nominatim()
+  }).addTo(map);
 
 /* 
  * Load getCurrentDate and loadMensen to make the Mensas visible when the page is ready

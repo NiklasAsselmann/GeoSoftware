@@ -124,7 +124,7 @@ function loadMensen() {
 /**
 * Show the Route to the nearest Mensa for a given Institut
 */
-function NavToMensa(INdatabaseobject){
+function navToMensa(INdatabaseobject){
     var Mensen
     var Mensen2
     var Abstand=[]
@@ -173,17 +173,51 @@ function distance(lat1, lon1, lat2, lon2) {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 
-function loadFromDatabase(nameVonObejkt){
+
+
+function loadINFromDatabase(){
+    var name = document.getElementById('institutload-area').value;
     $.ajax({
-      type: 'GET',
-      data: {"name":nameVonObejkt},
-      url: "./load",
-      success: function(result){
-        var route = JSON.parse(result.route);
-        control.setWaypoints([
-          L.latLng(route[0].lat, route[0].lng),
-          L.latLng(route[1].lat, route[1].lng)
-        ]);
-      }
-    });
-  }
+        type: 'GET',
+        data: "",
+        url: "/"+name+"/",
+        async: false,
+    success: function(res){
+        },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+        }
+    })
+}
+
+function loadFBFromDatabase(){
+    var name = document.getElementById('fachbereichload-area').value;
+    $.ajax({
+        type: 'GET',
+        data: "",
+        url: "/"+name+"/",
+        async: false,
+    success: function(res){
+        //-document.getElementById("loadedFB")=res[0].name+"\n"+res[0].website+"\n"+res[0].institute
+    },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+    }
+    })
+}
+
+function loadRouteFromDatabase(){
+    var name = document.getElementById('routenload').value;
+    $.ajax({
+        type: 'GET',
+        data: "",
+        url: "/"+name+"/",
+        async: false,
+    success: function(res){
+
+    },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+    }
+    })
+}

@@ -1,6 +1,6 @@
 'use strict';
 /**
-* @desc Löscht die layer 
+* @desc Delete all Layers
 * source: https://bl.ocks.org/danswick/d30c44b081be31aea483
 */
 function deleteLayer() {

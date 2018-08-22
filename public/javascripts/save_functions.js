@@ -73,6 +73,7 @@ function saveFBToDatabase() {
                 url: "./start",
                 success: function(result){
                 $('#error').html("Objekt gespeichert");
+                console.log("ERfolg")
                 },
                 error: function(xhr,status,error){
                 $('#error').html("Ups");
@@ -96,33 +97,37 @@ function getAllPoint(){
 * represents a Route in the database
 */
 class Routedatabaseobject {
-    constructor(name, json,) {
+    constructor(name, start, ziel) {
       this.name = name;
-      this.json = json;
+      this.start = start;
+      this.ziel = ziel;
     }
 }
 /**
 * save a Route in the database
 */
 function saveRouteToDatabase() {
-    var textfield = document.getElementById("routenname").value;
-    if(textfield.length==0) {
+    var name = document.getElementById("routenname-area").value;
+    var waypoint=control.getWaypoints() 
+    var ziel = waypoint[1]
+    var start = waypoint[0]
+    console.log(ziel)
+    if(name.length==0) {
     alert("Bitte Namen eingeben");
     }  else {
-      var data = getAllPoint();
-      var dbObject = new Routedatabasobject(name,"");
-      dbObject.json = JSON.stringify(data);
+      var dbObject = new Routedatabaseobject(name,start,ziel);
       $.ajax({
         type: 'POST',
         data: dbObject,
         url: "./start",
         success: function(result){
-            $('#error').html("Objekt gespeichert");
+        $('#error').html("Objekt gespeichert");
+        console.log("ERfolg")
         },
         error: function(xhr,status,error){
-            $('#error').html("Ups");
+        $('#error').html("Ups");
         }
-    });
+        });
     }
   }
 
