@@ -1,6 +1,6 @@
 'use strict';
 /**
-*@desc add and load the read GeoJSON/URL on the map
+*@desc hinzufügen und laden der eingelesenen GeoJSON/URL zur Karte
 */
 function loadGeoJSON() {
     var feat = readGeoJSONFromTA()
@@ -69,7 +69,10 @@ function coordinateMean(GeoJSON){
     return LATLONmean;
 }
 
-//- CurrentDate Function Credit to: "https://stackoverflow.com/users/525895/samuel-meddows"
+/**
+* CurrentDate Funktion, Credit to: "https://stackoverflow.com/users/525895/samuel-meddows"
+*/
+
 var date
 function getCurrentDate(){
     var tag = new Date();
@@ -85,6 +88,10 @@ function getCurrentDate(){
     tag = yyyy + '-' + mm + '-' + dd; 
     date = tag
 }
+
+/**
+* Laden der Mensen in MS und Anzeigen dieser mit Tagesgerichten auf Karte
+*/
 function loadMensen() {
     var Mensaurl = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
     var Mensen
@@ -114,3 +121,42 @@ function loadMensen() {
         })
     })
 }
+
+function NavigierzuMensa(){
+    var Mensen
+    var Abstand=[]
+    var ID=[]
+    var url = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
+    fetch(url)
+    .then(response => response.json())
+    .then(json => {
+        Mensen = json
+        var index = 0
+        Mensen.map((mensa)=>{
+            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],51.9629731,7.625654)
+            ID[index]=mensa.id
+            index= index+1
+            console.log(Abstand[index])
+        })
+    })
+    var Identifikation= Math.min(Abstand)
+    var url2 = "http://openmensa.org/api/v2/canteens/"+Identifikation
+    fetch(url2)
+    .then(response => response.json())
+    .then(json => {
+        Mensen2 = json
+    })
+}
+
+
+//- Credit to https://stackoverflow.com/users/1090562/salvador-dali
+function distance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;    // Math.PI / 180
+    var c = Math.cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+            c(lat1 * p) * c(lat2 * p) * 
+            (1 - c((lon2 - lon1) * p))/2;
+  
+    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}
+

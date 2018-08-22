@@ -48,7 +48,7 @@ block content
             h3.panel-title Neuen Fachbereich hinzufuegen
           .panel-body
             .form-group
-              label(for='FBname') Name+Abkürzung
+              label(for='FBname') Name+Abkürzung // 
               select#FBname.form-control(name="Fachbereiche")
                 option(selected disabled) Wähle deinen Fachbereich
                 option(value="Evangelisch-Theologische Fakultät(FB1)") Evangelisch-Theologische Fakultät(FB1)
@@ -73,13 +73,13 @@ block content
               label(for='institute') Institut(e)
               textarea#institute.form-control(rows='1', placeholder='Hier Institute einfuegen')
             .form-group
-              button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()')
+              button#download.btn.btn-danger.btn(type='button', onclick='NavigierzuMensa()')
                 span.glyphicon.glyphicon-save()
-//- Einfügen von Name und Abkürzung zusammen, da Abkürzung von Namen abhängig ist
 
-script(src='javascripts/map.js')
-script(src='javascripts/read_functions.js')
-script(src='javascripts/load_functions.js')
-script(src='javascripts/save_functions.js')
-script(src='javascripts/delete_functions.js')
-script(src='javascripts/resize.js')
+  // /.container
+  script(src='javascripts/map.js')
+  script(src='javascripts/read_functions.js')
+  script(src='javascripts/load_functions.js')
+  script(src='javascripts/save_functions.js')
+  script(src='javascripts/delete_functions.js')
+  script(src='javascripts/resize.js')
