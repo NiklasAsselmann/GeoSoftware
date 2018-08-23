@@ -32,42 +32,28 @@ router.get('/jsonlist', function(req, res) {
 * (those with the id in it when selecting object of database)
 * Render it with oject.jade and pass the variables title, text and name
 */
-router.get('/:id', function(req, res) {
-  var db = req.db;
-  var collection = db.get('geojsons');
-  var json;
-  collection.find({name: req.params.id},{},function(e,docs){
-      // text is the json-string
-      if(res.send(docs).length==0){
-        res.send("Error")
-      }
-      if(res.send(docs).length==1){ 
-             res.send(docs)
-        }
-      if(res.send(docs).length>1){
-        res.send("Error")
-      }
-    // res.render('object', { title: 'Object: ' + docs[0].name, id: req.params.id,
-      //text: JSON.stringify(docs[0].json), name: docs[0].name
-      //});
-  });
-});
-
-/*
-* handling database insert post request when clicking button in map
-* sending the data of the request to the database collection 'geojsons'
-*/
-router.post('/start', function(req, res) {
-  console.log(req.params)
+router.post('/db/', function(req, res) {
   var db = req.db;
   var document = req.body;
   db.collection('geojsons').insert(document, function(err, result) {
     if(err) {
-
+      console.log("Klappt nicht");
     } else {
-      res.send(document);    
+      res.send(document);
+      console.log("New Object..."+document.name+ "... saved to the database");
     }
   });
 });
+
+router.get('/db/:name', function(req, res) {
+  var db = req.db;
+  var collection = db.get('geojsons');
+  var json;
+  collection.find({name: req.params.name},{},function(e,docs){
+        // text is the json-string
+        res.send(docs);
+    });
+});
+
 
 module.exports = router;

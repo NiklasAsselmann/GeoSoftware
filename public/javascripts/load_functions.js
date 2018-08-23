@@ -172,42 +172,65 @@ function distance(lat1, lon1, lat2, lon2) {
   
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
-
-
-
+/**
+* Load an given Institut and display it on the Map
+*/
 function loadINFromDatabase(){
     var name = document.getElementById('institutload-area').value;
+    if(name.length==0) {
+        alert("Bitte Namen eingeben");
+    }   
     $.ajax({
         type: 'GET',
         data: "",
         url: "/"+name+"/",
         async: false,
     success: function(res){
-        },
+        var foot = JSON.parse(res[0].json);
+        var feat = foot.features[0];
+        var laylay = L.geoJson(feat);
+        var maymay = L.marker([foot.features[0].geometry.coordinates[0],foot.features[0].geometry.coordinates[1]])
+        console.log(laylay)
+        laylay.addTo(map);
+        maymay.addTo(map).bindPopup(/*"<h5>"+name+"<h5><img src="+bild+" width='200'><br>"*/).openPopup();
+        drawnItems.addLayer(laylay);
+        drawnItems.addLayer(maymay);
+        console.log("erfolgreich geladen!");     
+    },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
         }
     })
 }
-
+/**
+* Load an given Fachbereich and display it in a textfield on the website
+*/
 function loadFBFromDatabase(){
     var name = document.getElementById('fachbereichload-area').value;
+    if(name.length==0) {
+        alert("Bitte Namen eingeben");
+    }   
     $.ajax({
         type: 'GET',
         data: "",
         url: "/"+name+"/",
         async: false,
     success: function(res){
-        //-document.getElementById("loadedFB")=res[0].name+"\n"+res[0].website+"\n"+res[0].institute
+        document.getElementById('loadedFB').innerHTML = "Fachschaftsname(Abkurzung): "+res[0].name+"\nInstitute:"+res[0].institute+"\nWebsites:"+res[0].website
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
     }
     })
 }
-
+/**
+* Load an given Route and display it on the Map
+*/
 function loadRouteFromDatabase(){
     var name = document.getElementById('routenload').value;
+    if(name.length==0) {
+        alert("Bitte Namen eingeben");
+    }   
     $.ajax({
         type: 'GET',
         data: "",
