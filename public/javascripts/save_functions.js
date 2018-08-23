@@ -39,10 +39,9 @@ function saveINToDatabase() {
             data: dbObject,
             url: "./start",
             success: function(result){
-                $('#error').html("Objekt gespeichert");
+                console.log("Erfolg")
             },
             error: function(xhr,status,error){
-                $('#error').html("Ups");
             }
         });
     }
@@ -72,11 +71,9 @@ function saveFBToDatabase() {
                 data: dbObject,
                 url: "./start",
                 success: function(result){
-                $('#error').html("Objekt gespeichert");
-                console.log("ERfolg")
+                console.log("Erfolg")
                 },
                 error: function(xhr,status,error){
-                $('#error').html("Ups");
                 }
                 });
             }
@@ -84,23 +81,17 @@ function saveFBToDatabase() {
     }
 }
 /**
-* get all Waypoints from the current route
-*/
-function getAllPoint(){
-    var returnArray = [];
-        for (var i = 0; i < control.getWaypoints().length; i++) {
-          returnArray.push(control.getWaypoints()[i].latLng);
-        };
-      return returnArray;
-}
-/**
 * represents a Route in the database
 */
 class Routedatabaseobject {
-    constructor(name, start, ziel) {
+    constructor(name,start,startlat,startlng,ziel,ziellat,ziellng) {
       this.name = name;
       this.start = start;
       this.ziel = ziel;
+      this.startlat=startlat
+      this.startlng=startlng
+      this.ziellat=ziellat
+      this.ziellng=ziellng
     }
 }
 /**
@@ -108,24 +99,27 @@ class Routedatabaseobject {
 */
 function saveRouteToDatabase() {
     var name = document.getElementById("routenname-area").value;
-    var waypoint=control.getWaypoints() 
-    var ziel = waypoint[1]
-    var start = waypoint[0]
-    console.log(ziel)
+    var waypoint=control.getWaypoints()
+    var ziel = waypoint[1].name
+    var ziellat = waypoint[1].latLng.lat
+    var ziellng = waypoint[1].latLng.lng
+    var start = waypoint[0].name
+    var startlat = waypoint[0].latLng.lat
+    var startlng = waypoint[0].latLng.lng
+    console.log(waypoint)
     if(name.length==0) {
     alert("Bitte Namen eingeben");
     }  else {
-      var dbObject = new Routedatabaseobject(name,start,ziel);
+      var dbObject = new Routedatabaseobject(name,start,startlat,startlng,ziel,ziellat,ziellng);
+      console.log(dbObject)
       $.ajax({
         type: 'POST',
         data: dbObject,
         url: "./start",
         success: function(result){
-        $('#error').html("Objekt gespeichert");
-        console.log("ERfolg")
+        console.log("Erfolg")
         },
         error: function(xhr,status,error){
-        $('#error').html("Ups");
         }
         });
     }

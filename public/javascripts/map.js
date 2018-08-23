@@ -91,10 +91,6 @@ map.on('draw:created', function(e) {
 
 var control = L.Routing.control({
     router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
-    //-waypoints: [
-    //-  L.latLng("",""),
-    //-  L.latLng("","")
-    //-],
     routeWhileDragging: true,
     geocoder: L.Control.Geocoder.nominatim()
   }).addTo(map);

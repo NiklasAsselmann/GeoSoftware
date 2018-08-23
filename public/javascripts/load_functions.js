@@ -183,19 +183,16 @@ function loadINFromDatabase(){
     $.ajax({
         type: 'GET',
         data: "",
-        url: "/"+name+"/",
+        url: "./start/"+name,
         async: false,
-    success: function(res){
-        var foot = JSON.parse(res[0].json);
-        var feat = foot.features[0];
-        var laylay = L.geoJson(feat);
-        var maymay = L.marker([foot.features[0].geometry.coordinates[0],foot.features[0].geometry.coordinates[1]])
-        console.log(laylay)
-        laylay.addTo(map);
-        maymay.addTo(map).bindPopup(/*"<h5>"+name+"<h5><img src="+bild+" width='200'><br>"*/).openPopup();
-        drawnItems.addLayer(laylay);
-        drawnItems.addLayer(maymay);
-        console.log("erfolgreich geladen!");     
+        success: function(res){
+            var instDB = JSON.parse(res[0].json);
+            var layer = L.geoJson(instDB.features[0]).addTo(map);
+            var marker = L.marker([instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0]]);             
+            marker.addTo(map).bindPopup("<h5>"+instDB.features[0].features[0].properties.name+"<h5><img src="+instDB.features[0].features[0].properties.img+" width='200'><br>").openPopup();
+            drawnItems.addLayer(layer);
+            drawnItems.addLayer(marker);
+            console.log(Erfolg);     
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
@@ -213,10 +210,11 @@ function loadFBFromDatabase(){
     $.ajax({
         type: 'GET',
         data: "",
-        url: "/"+name+"/",
+        url: "./start/"+name,
         async: false,
     success: function(res){
         document.getElementById('loadedFB').innerHTML = "Fachschaftsname(Abkurzung): "+res[0].name+"\nInstitute:"+res[0].institute+"\nWebsites:"+res[0].website
+        console.log("Erfolg"); 
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
@@ -227,17 +225,28 @@ function loadFBFromDatabase(){
 * Load an given Route and display it on the Map
 */
 function loadRouteFromDatabase(){
-    var name = document.getElementById('routenload').value;
+    var name = document.getElementById('routenload-area').value;
     if(name.length==0) {
         alert("Bitte Namen eingeben");
     }   
     $.ajax({
         type: 'GET',
         data: "",
-        url: "/"+name+"/",
+        url: "./start/"+name,
         async: false,
     success: function(res){
+        L.Routing.control({
+            router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
+            waypoints: [
+                L.latLng(res[0].startlat,res[0].startlng),
+                L.latLng(res[0].ziellat,res[0].ziellng)
+              ],
+              routeWhileDragging: true,
+            geocoder: L.Control.Geocoder.nominatim()
+          }).addTo(map);
+            
 
+        console.log("Erfolg"); 
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
