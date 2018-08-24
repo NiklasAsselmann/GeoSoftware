@@ -125,42 +125,30 @@ function loadMensen() {
 * Show the Route to the nearest Mensa for a given lat,lon
 */
 function navToMensa(lat,lon){
-    var Mensen
-    var Mensen2
-    var Abstand=[]
-    var ID=[]
-    var index = 1
-    var min1
-    var min2
-    function minfunction(value, index, array) {
-        if(Abstand[i-1]>Abstand[i]){
-            min1=Abstand[i]
-            min2=ID[i]
-    }}
+    var Abstand = []
+    var ID = []
+    //var index = 1
     var url = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
     fetch(url)
     .then(response => response.json())
     .then(json => {
-        Mensen = json
-        Mensen.map((mensa)=>{
-            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],lat,lon)
-            ID[index]=mensa.id
-            index= index+1
+        for(var i = 1; i < json.length; i++) {
+            Abstand.push(distance(json[i].coordinates[0], json[i].coordinates[1],lat,lon));
+            ID.push(json[i].id);
+        }
+        var min = Math.min(...Abstand);
+        var min2 = Abstand.indexOf(min,0);
+        var url2 = "http://openmensa.org/api/v2/canteens/"+ID[min2]
+        fetch(url2)
+        .then(response => response.json())
+        .then(json => {
+            control.setWaypoints([
+                L.latLng(lat, lon),
+                L.latLng(json.coordinates[0],json.coordinates[1]) 
+              ]);
         })
-    //- creates an Array with the mensa ids and an array with their distance to the location
-    })
-    var min = Math.min(Abstand)
-    var min2 = Abstand.indexOf(min,0) //- displays the index of the nearest Mensa
-    var url2 = "http://openmensa.org/api/v2/canteens/"+ID[min2]
-    fetch(url2)
-    .then(response => response.json())
-    .then(json => {
-        Mensen2 = json
-        control.setWaypoints([
-            L.latLng(mensa.coordinates[0],mensa.coordinates[1]),
-            L.latLng(lat, lon)
-          ]);
-    })
+        loadMensen()
+    })    
 }
 
 
@@ -229,7 +217,7 @@ function loadFBFromDatabase(){
 /**
 * Search and load a given Route by its Name and display it on the Map
 */
-function loadRouteFromDatabaseName(){
+function loadRouteFromDatabase(){
     var name = document.getElementById('routenload-area').value;
     if(name.length==0) {
         alert("Bitte Namen eingeben");
@@ -251,45 +239,3 @@ function loadRouteFromDatabaseName(){
 /**
 * Search and load a given Route by its Start and display it on the Map
 */
-function loadRouteFromDatabaseStart(){
-    var name = document.getElementById('routenload-area').value;
-    if(name.length==0) {
-        alert("Bitte Namen eingeben");
-    }   
-    $.ajax({
-        type: 'GET',
-        data: "",
-        url: "./start/routen/"+name,
-        async: false,
-    success: function(res){
-        console.log(res)
-        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
-        console.log("Erfolg"); 
-    },
-    error: function(res){
-        alert("Keine passendes Objekt in der DB")
-    }
-    })
-}
-/**
-* Search and load a given Route by its Ziel and display it on the Map
-*/
-function loadRouteFromDatabaseZiel(){
-    var name = document.getElementById('routenload-area').value;
-    if(name.length==0) {
-        alert("Bitte Namen eingeben");
-    }   
-    $.ajax({
-        type: 'GET',
-        data: "",
-        url: "./start/routen/"+name,
-        async: false,
-    success: function(res){
-        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
-        console.log("Erfolg"); 
-    },
-    error: function(res){
-        alert("Keine passendes Objekt in der DB")
-    }
-    })
-}

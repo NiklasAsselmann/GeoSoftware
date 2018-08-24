@@ -49,7 +49,6 @@ function updateFBinDatabase() {
                 console.log(dbObject)
                 $.ajax({
                 type: 'PUT',
-                data: dbObject,
                 url: "./start/fachbereiche/"+name,
                 success: function(result){
                 console.log("Erfolg")
@@ -62,7 +61,7 @@ function updateFBinDatabase() {
     }
 }
 /**
-* update a Route in the database
+* save a Route in the database
 */
 function updateRouteinDatabase() {
     var name = document.getElementById("routenname-area").value;

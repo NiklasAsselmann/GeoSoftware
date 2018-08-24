@@ -21,7 +21,8 @@ function loadGeomitriesOfObject() {
   geojson = JSON.parse(""+geojson+"");
   var bild = geojson.features[0].features[0].properties.img;
   var iname = geojson.features[0].features[0].properties.name;
-  var layer = L.geoJSON(geojson[0]).addTo(map);
+  var layer = L.geoJSON(geojson.features[0]).addTo(map);
+  var marker = L.geoJSON(geojson.features[1]).addTo(map).bindPopup("<h5>"+iname+"<h5><img src="+bild+" width='200'><br>").openPopup();
   map.fitBounds(layer.getBounds());
 }
 

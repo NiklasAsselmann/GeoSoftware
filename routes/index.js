@@ -21,7 +21,6 @@ router.get('/impressum', function(req, res, next) {
   res.render('impressum', { title: 'Geosoftware I - Endabgabe - Impressum' });
 });
 
-/* GET database page that contains all objects of our database. */
 router.get('/database', function(req, res) {
   var db = req.db;
   var collection = db.get('fachbereiche');
@@ -30,6 +29,17 @@ router.get('/database', function(req, res) {
           'database' : docs, title: "Datenbank Objekte"
       });
   });
+});
+
+router.get('/:name', function(req, res) {
+  var db = req.db;
+  var collection = db.get('institute');
+  collection.find({"name": req.params.name},{},function(e,docs){
+    var baba = JSON.parse(docs[0].json);
+    JL().info(baba.features[0].features[0].properties.name);
+    res.render('object', {title: 'Objekt: ' + JSON.stringify(baba.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
+  JL().info("Currently retrieving object with id... "+req.params.id+ "...");  
+  }); 
 });
 
 /*
@@ -44,9 +54,9 @@ router.get('/start/institute/:name', function(req, res) {
   });
 });
 
-router.get('/start/fachbereich/:name', function(req, res) {
+router.get('/start/fachbereiche/:name', function(req, res) {
   var db = req.db;
-  var collection = db.get('fachbereich');
+  var collection = db.get('fachbereiche');
   var json;
   collection.find({name: req.params.name},{},function(e,docs){
       res.send(docs)
@@ -58,24 +68,6 @@ router.get('/start/routen/:name', function(req, res) {
   var collection = db.get('routen');
   var json;
   collection.find({name: req.params.name},{},function(e,docs){
-      res.send(docs)
-  });
-});
-
-router.get('/start/routen/:start', function(req, res) {
-  var db = req.db;
-  var collection = db.get('routen');
-  var json;
-  collection.find({start: req.params.start},{},function(e,docs){
-      res.send(docs)
-  });
-});
-
-router.get('/start/routen/:ziel', function(req, res) {
-  var db = req.db;
-  var collection = db.get('routen');
-  var json;
-  collection.find({ziel: req.params.ziel},{},function(e,docs){
       res.send(docs)
   });
 });
@@ -130,7 +122,7 @@ router.put('/start/institute/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('institute');
   var json;
-  collection.updateOne({name: req.params.name},{ $set: {json: req.params.json, picture:req.params.picture } },
+  collection.update({name: req.params.name},{name: req.body.name, json: req.body.json, picture:req.body.picture},
     function(e,docs){
       res.send(docs)
   });
@@ -140,8 +132,7 @@ router.put('/start/fachbereiche/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('fachbereiche');
   var json;
-  JL().info(req.params.name);
-  collection.updateOne({name: req.params.name},{ $set: {website: req.params.website, institute:req.params.institute } },
+    collection.update({name: req.params.name},{name: req.body.name, website: req.body.website, institute:req.body.institute},
     function(e,docs){
       res.send(docs)
   });
@@ -151,7 +142,7 @@ router.put('/start/routen/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('routen');
   var json;
-  collection.updateOne({name: req.params.name},{ $set: {start: req.params.start, ziel:req.params.ziel } },
+  collection.update({name: req.params.name},{name: req.body.name, start: req.body.start, ziel: req.body.ziel},
     function(e,docs){
       res.send(docs)
   });
@@ -163,7 +154,7 @@ router.delete('/start/institute/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('institute');
   var json;
-  collection.deleteOne({name: req.params.name},function(e,docs){
+  collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
   });
 });
@@ -172,7 +163,7 @@ router.delete('/start/fachbereiche/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('fachbereiche');
   var json;
-  collection.deleteOne({name: req.params.name},function(e,docs){
+  collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
   });
 });
@@ -181,7 +172,7 @@ router.delete('/start/routen/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('routen');
   var json;
-  collection.deleteOne({name: req.params.name},function(e,docs){
+  collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
   });
 });
@@ -190,10 +181,9 @@ router.get('/:name', function(req, res) {
   var db = req.db;
   var collection = db.get('institute');
   collection.find({"name": req.params.name},{},function(e,docs){
-    var InstitutsObjekt = JSON.parse(docs[0].json);
-    JL().info(InstitutsObjekt);
-    JL().info(InstitutsObjekt.features[0].features[0].properties.name);
-    res.render('object', {title: 'Objekt: ' + JSON.stringify(InstitutsObjekt.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
+    var baba = JSON.parse(docs[0].json);
+    JL().info(baba.features[0].features[0].properties.name);
+    res.render('object', {title: 'Objekt: ' + JSON.stringify(baba.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
   JL().info("Currently retrieving object with id... "+req.params.name+ "...");  
   }); 
 });

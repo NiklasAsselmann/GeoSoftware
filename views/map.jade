@@ -22,25 +22,35 @@ block content
             label(for='institutload-area',style="color:white;") Institut
             textarea#institutload-area.form-control(rows='1', placeholder='Hier Institutsname einfügen')
             label(for='fachbereichload-area',style="color:white;") Fachbereich
-            textarea#fachbereichload-area.form-control(rows='1', placeholder='Hier Fachbereichsnamen einfügen')
+            select#fachbereichload-area.form-control(name="Fachbereiche")
+              option(selected disabled) Wähle deinen Fachbereich
+              option(value="Evangelisch-Theologische Fakultät(FB1)") Evangelisch-Theologische Fakultät(FB1)
+              option(value="Katholisch-Theologische Fakultät(FB2)") Katholisch-Theologische Fakultät(FB2)
+              option(value="Rechtswissenschaftliche Fakultät(FB3)") Rechtswissenschaftliche Fakultät(FB3)
+              option(value="Wirtschaftwissenschaftliche Fakultät(FB4)") Wirtschaftwissenschaftliche Fakultät(FB4)
+              option(value="Medizinische Fakultät(FB5)") Medizinische Fakultät(FB5)
+              option(value="Erziehungswissenschaft und Sozialwissenschaften(FB6)") Erziehungswissenschaft und Sozialwissenschaften(FB6)
+              option(value="Psychologie und Sportwissenschaften(FB7)") Psychologie und Sportwissenschaften(FB7)
+              option(value="Geschichte/Philosophie(FB8)") Geschichte/Philosophie(FB8)
+              option(value="Philologie(FB9)") Philologie(FB9)
+              option(value="Mathematik und Informatik(FB10)") Mathematik und Informatik(FB10)
+              option(value="Physik(FB11)") Physik(FB11)
+              option(value="Chemie und Pharmazie(FB12)") Chemie und Pharmazie(FB12)
+              option(value="Biologie(FB13)") Biologie(FB13)
+              option(value="Geowissenschaften(FB14)") Geowissenschaften(FB14)
+              option(value="Musikhochschule(FB15)") Musikhochschule(FB15)
             label(for='routenload-area',style="color:white;") Route
             textarea#routenload-area.form-control(rows='1', placeholder='Hier Routennamen einfügen')
             .form-group
             button.btn.btn-danger(onclick='loadINFromDatabase()')
                 span
-                |  Institut suchen und laden
+                |  Institut suchen,laden und zu Mensa navigieren
             button.btn.btn-danger(onclick='loadFBFromDatabase()')
                 span
                 |  Fachbereich suchen und laden
-            button.btn.btn-danger(onclick='loadRouteFromDatabaseName()')
+            button.btn.btn-danger(onclick='loadRouteFromDatabase()')
                span
-                |  Route(Name) suchen und laden
-            button.btn.btn-danger(onclick='loadRouteFromDatabaseStart()')
-               span
-                |  Route(Start) suchen und laden
-            button.btn.btn-danger(onclick='loadRouteFromDatabaseZiel()')
-               span
-                |  Route(Ziel) suchen und laden
+                |  Route suchen und laden
             .form-group    
             label(style="color:white;") geladener Fachbereich
             pre#loadedFB
@@ -76,14 +86,14 @@ block content
                 span.glyphicon.glyphicon-save()
               button#download.btn.btn-danger.btn(type='button', onclick='updateINinDatabase()', disabled='disabled')
                 span.glyphicon.glyphicon-edit()
-              button#download.btn.btn-danger.btn(type='button', onclick='deleteINfromDatabase()', disabled='disabled')
+              button#download.btn.btn-danger.btn(type='button', onclick='deleteINfromDatabase()')
                 span.glyphicon.glyphicon-trash()
            panel
           .panel-heading
             h3.panel-title Neuen Fachbereich hinzufügen
           .panel-body
             .form-group
-              label(for='FBname') Name+Abkürzung // 
+              label(for='FBname') Name+Abkürzung
               select#FBname.form-control(name="Fachbereiche")
                 option(selected disabled) Wähle deinen Fachbereich
                 option(value="Evangelisch-Theologische Fakultät(FB1)") Evangelisch-Theologische Fakultät(FB1)

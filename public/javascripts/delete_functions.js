@@ -18,11 +18,11 @@ function destroyClickedElement(event) {
 }
 
 function deleteINfromDatabase() {
-    var textfield = document.getElementById('institutsname-area').value;  
-
-    if(textfield.length==0) {
+    var name = document.getElementById('institutsname-area').value;  
+    if(name.length==0) {
         alert("Bitte Namen eingeben");
-    }   else {
+    }   
+    else {
         $.ajax({
             type: 'DELETE',
             url: "./start/institute/"+name,
@@ -48,7 +48,6 @@ function deleteFBfromDatabase() {
                 console.log("Erfolg")
                 },
                 error: function(xhr,status,error){
-                    console.log(res)
                 }
                 });
         }
