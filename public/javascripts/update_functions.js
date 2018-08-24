@@ -1,28 +1,8 @@
 'use strict';
 /**
-* represents a Institutobjekt in the database
+* update a Institut in the database
 */
-class INdatabaseobject {
-    constructor(name, json, picture) {
-      this.name = name;
-      this.json = json;
-      this.picture = picture;
-    }
-}
-/**
-* represents a Fachbreich in the database
-*/
-class FBdatabaseobject {
-    constructor(name, website,institute) {
-      this.name = name;
-      this.website = website;
-      this.institute= institute
-    }
-}
-/**
-* save an Institut in the database
-*/
-function saveINToDatabase() {
+function updateINinDatabase() {
     var textfield = document.getElementById('institutsname-area').value;  
     var picture = document.getElementById('imageurl-area').value;   
     if(textfield.length==0) {
@@ -35,9 +15,9 @@ function saveINToDatabase() {
         var dbObject = new INdatabaseobject(textfield, "",picture);
         dbObject.json = JSON.stringify(data);
         $.ajax({
-            type: 'POST',
+            type: 'PUT',
             data: dbObject,
-            url: "./start/institute",
+            url: "./start/institute/"+name,
             success: function(result){
                 console.log("Erfolg")
             },
@@ -47,9 +27,9 @@ function saveINToDatabase() {
     }
 }
 /**
-* save a Fachbereich in the database
+* update a Fachbereich in the database
 */
-function saveFBToDatabase() {
+function updateFBinDatabase() {
     var name =document.getElementById('FBname').value; 
     var url = document.getElementById('FBurl-area').value;
     var institute = document.getElementById('institute').value;
@@ -66,10 +46,11 @@ function saveFBToDatabase() {
             }
             else{
                 var dbObject = new FBdatabaseobject(name,url,institute);
+                console.log(dbObject)
                 $.ajax({
-                type: 'POST',
+                type: 'PUT',
                 data: dbObject,
-                url: "./start/fachbereiche",
+                url: "./start/fachbereiche/"+name,
                 success: function(result){
                 console.log("Erfolg")
                 },
@@ -81,23 +62,9 @@ function saveFBToDatabase() {
     }
 }
 /**
-* represents a Route in the database
+* update a Route in the database
 */
-class Routedatabaseobject {
-    constructor(name,start,startlat,startlng,ziel,ziellat,ziellng) {
-      this.name = name;
-      this.start = start;
-      this.ziel = ziel;
-      this.startlat=startlat
-      this.startlng=startlng
-      this.ziellat=ziellat
-      this.ziellng=ziellng
-    }
-}
-/**
-* save a Route in the database
-*/
-function saveRouteToDatabase() {
+function updateRouteinDatabase() {
     var name = document.getElementById("routenname-area").value;
     var waypoint=control.getWaypoints()
     var ziel = waypoint[1].name
@@ -111,9 +78,9 @@ function saveRouteToDatabase() {
     }  else {
       var dbObject = new Routedatabaseobject(name,start,startlat,startlng,ziel,ziellat,ziellng);
       $.ajax({
-        type: 'POST',
+        type: 'PUT',
         data: dbObject,
-        url: "./start/routen",
+        url: "./start/routen/"+name,
         success: function(result){
         console.log("Erfolg")
         },
@@ -122,4 +89,3 @@ function saveRouteToDatabase() {
         });
     }
   }
-

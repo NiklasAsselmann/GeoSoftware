@@ -17,7 +17,7 @@ block content
             #map
         .panel.panel-danger
           .panel-heading
-            h3.panel-title Laden
+            h3.panel-title Suchen und Laden
           .panel-body
             label(for='institutload-area',style="color:white;") Institut
             textarea#institutload-area.form-control(rows='1', placeholder='Hier Institutsname einfügen')
@@ -28,13 +28,19 @@ block content
             .form-group
             button.btn.btn-danger(onclick='loadINFromDatabase()')
                 span
-                |  Institut laden
+                |  Institut suchen und laden
             button.btn.btn-danger(onclick='loadFBFromDatabase()')
                 span
-                |  Fachbereich laden
-            button.btn.btn-danger(onclick='loadRouteFromDatabase()')
+                |  Fachbereich suchen und laden
+            button.btn.btn-danger(onclick='loadRouteFromDatabaseName()')
                span
-                |  Route laden
+                |  Route(Name) suchen und laden
+            button.btn.btn-danger(onclick='loadRouteFromDatabaseStart()')
+               span
+                |  Route(Start) suchen und laden
+            button.btn.btn-danger(onclick='loadRouteFromDatabaseZiel()')
+               span
+                |  Route(Ziel) suchen und laden
             .form-group    
             label(style="color:white;") geladener Fachbereich
             pre#loadedFB
@@ -64,8 +70,14 @@ block content
               label(for='imageurl-area') Image-URL
               textarea#imageurl-area.form-control(rows='1', placeholder='Hier Image-URL einfügen')
               .form-group 
+              label Speichern/Bearbeiten/Löschen
+              br
               button#download.btn.btn-danger.btn(type='button', onclick='saveINToDatabase()', disabled='disabled')
                 span.glyphicon.glyphicon-save()
+              button#download.btn.btn-danger.btn(type='button', onclick='updateINinDatabase()', disabled='disabled')
+                span.glyphicon.glyphicon-edit()
+              button#download.btn.btn-danger.btn(type='button', onclick='deleteINfromDatabase()', disabled='disabled')
+                span.glyphicon.glyphicon-trash()
            panel
           .panel-heading
             h3.panel-title Neuen Fachbereich hinzufügen
@@ -96,8 +108,14 @@ block content
               label(for='institute') Institut(e)
               textarea#institute.form-control(rows='1', placeholder='Hier Institute einfügen')
             .form-group
+              label Speichern/Bearbeiten/Löschen
+              br
               button#download.btn.btn-danger.btn(type='button', onclick='saveFBToDatabase()')
-                span.glyphicon.glyphicon-save()
+                  span.glyphicon.glyphicon-save()
+              button#download.btn.btn-danger.btn(type='button', onclick='updateFBinDatabase()')
+                  span.glyphicon.glyphicon-edit()
+              button#download.btn.btn-danger.btn(type='button', onclick='deleteFBfromDatabase()')
+                  span.glyphicon.glyphicon-trash()
           .panel-heading
             h3.panel-title Neue Route hinzufügen
           .panel-body
@@ -105,8 +123,14 @@ block content
               label(for='routenname-area') Routenname
               textarea#routenname-area.form-control(rows='1', placeholder='Hier Routenname einfügen')
             .form-group
-              button#download.btn.btn-danger.btn(type='button', onclick='saveRouteToDatabase()')
+            label Speichern/Bearbeiten/Löschen
+            br
+            button#download.btn.btn-danger.btn(type='button', onclick='saveRouteToDatabase()')
                 span.glyphicon.glyphicon-save()
+            button#download.btn.btn-danger.btn(type='button', onclick='updateRouteinDatabase()')
+                span.glyphicon.glyphicon-edit()
+            button#download.btn.btn-danger.btn(type='button', onclick='deleteRoutefromDatabase()')
+                span.glyphicon.glyphicon-trash()
 
 
   // /.container
@@ -115,4 +139,5 @@ block content
   script(src='javascripts/load_functions.js')
   script(src='javascripts/save_functions.js')
   script(src='javascripts/delete_functions.js')
+  script(src='javascripts/update_functions.js')
   script(src='javascripts/resize.js')

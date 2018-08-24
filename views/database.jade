@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  h1 These are our database routes
+  h5 Click on one of the names
+  a(href="/map")
+    button.btn.btn-success(type="button") Create new object on map
+  button.btn.btn-warning(type="button", style="float: right;", id="display", disabled="true", onclick='displayRoutes()') Select a route
+  p 
+    table.table
+      thead
+        tr
+          th name
+          th waypoints
+          th ObjectID
+          th Display?
+      tbody(id="myTable")
+        form(action='', method='get')
+        each object, i in jsonlist
+          tr
+            td 
+              a(href="/" + object._id)= object.name
+            td= object.json
+            td= object._id
+            td
+              input(type='checkbox', name='feature', onclick='changeCBStatus(this)', id= object._id)
+  #map

@@ -122,41 +122,43 @@ function loadMensen() {
     })
 }
 /**
-* Show the Route to the nearest Mensa for a given Institut
+* Show the Route to the nearest Mensa for a given lat,lon
 */
-function navToMensa(INdatabaseobject){
+function navToMensa(lat,lon){
     var Mensen
     var Mensen2
     var Abstand=[]
     var ID=[]
+    var index = 1
+    var min1
+    var min2
+    function minfunction(value, index, array) {
+        if(Abstand[i-1]>Abstand[i]){
+            min1=Abstand[i]
+            min2=ID[i]
+    }}
     var url = 'http://openmensa.org/api/v2/canteens?near[lat]=51.9629731&near[lng]=7.625654&nebrar[dist]=20' 
     fetch(url)
     .then(response => response.json())
     .then(json => {
         Mensen = json
-        var index = 1
         Mensen.map((mensa)=>{
-            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],INdatabaseobject.coordinates[0], INdatabaseobject.coordinates[1])
+            Abstand[index]=distance(mensa.coordinates[0], mensa.coordinates[1],lat,lon)
             ID[index]=mensa.id
             index= index+1
         })
+    //- creates an Array with the mensa ids and an array with their distance to the location
     })
-    console.log(Abstand)
-    Array.min = function( Abstand ){
-        return Math.min.apply( Math, Abstand );
-    };
-    var value = Abstand.min;
-    console.log(value)
-    var key = Abstand.indexOf(value);
-    console.log(key)
-    var url2 = "http://openmensa.org/api/v2/canteens/"+ID[key]
+    var min = Math.min(Abstand)
+    var min2 = Abstand.indexOf(min,0) //- displays the index of the nearest Mensa
+    var url2 = "http://openmensa.org/api/v2/canteens/"+ID[min2]
     fetch(url2)
     .then(response => response.json())
     .then(json => {
         Mensen2 = json
         control.setWaypoints([
             L.latLng(mensa.coordinates[0],mensa.coordinates[1]),
-            L.latLng(INdatabaseobject.coordinates[0], INdatabaseobject.coordinates[1])
+            L.latLng(lat, lon)
           ]);
     })
 }
@@ -173,7 +175,8 @@ function distance(lat1, lon1, lat2, lon2) {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 /**
-* Load an given Institut and display it on the Map
+* Search and load an given Institut by its Name and display it on the Map
+* Also display the Route to the nearest Mensa
 */
 function loadINFromDatabase(){
     var name = document.getElementById('institutload-area').value;
@@ -183,7 +186,7 @@ function loadINFromDatabase(){
     $.ajax({
         type: 'GET',
         data: "",
-        url: "./start/"+name,
+        url: "./start/institute/"+name,
         async: false,
         success: function(res){
             var instDB = JSON.parse(res[0].json);
@@ -192,15 +195,17 @@ function loadINFromDatabase(){
             marker.addTo(map).bindPopup("<h5>"+instDB.features[0].features[0].properties.name+"<h5><img src="+instDB.features[0].features[0].properties.img+" width='200'><br>").openPopup();
             drawnItems.addLayer(layer);
             drawnItems.addLayer(marker);
-            console.log(Erfolg);     
+            navToMensa(instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0])
+            console.log("Erfolg");     
     },
     error: function(res){
+        console.log(res)
         alert("Keine passendes Objekt in der DB")
         }
     })
 }
 /**
-* Load an given Fachbereich and display it in a textfield on the website
+* Search and load a given Fachbereich by its Name and display it on the Map
 */
 function loadFBFromDatabase(){
     var name = document.getElementById('fachbereichload-area').value;
@@ -210,7 +215,7 @@ function loadFBFromDatabase(){
     $.ajax({
         type: 'GET',
         data: "",
-        url: "./start/"+name,
+        url: "./start/fachbereiche/"+name,
         async: false,
     success: function(res){
         document.getElementById('loadedFB').innerHTML = "Fachschaftsname(Abkurzung): "+res[0].name+"\nInstitute:"+res[0].institute+"\nWebsites:"+res[0].website
@@ -222,9 +227,9 @@ function loadFBFromDatabase(){
     })
 }
 /**
-* Load an given Route and display it on the Map
+* Search and load a given Route by its Name and display it on the Map
 */
-function loadRouteFromDatabase(){
+function loadRouteFromDatabaseName(){
     var name = document.getElementById('routenload-area').value;
     if(name.length==0) {
         alert("Bitte Namen eingeben");
@@ -232,20 +237,55 @@ function loadRouteFromDatabase(){
     $.ajax({
         type: 'GET',
         data: "",
-        url: "./start/"+name,
+        url: "./start/routen/"+name,
         async: false,
     success: function(res){
-        L.Routing.control({
-            router: L.routing.mapbox('pk.eyJ1IjoiZWZmaXpqZW5zIiwiYSI6ImNqaWFkbWsxMjB1bzgzdmxtZjcxb2RrMWcifQ.By1C8AELYfvq1EpQeOVMxw'),
-            waypoints: [
-                L.latLng(res[0].startlat,res[0].startlng),
-                L.latLng(res[0].ziellat,res[0].ziellng)
-              ],
-              routeWhileDragging: true,
-            geocoder: L.Control.Geocoder.nominatim()
-          }).addTo(map);
-            
-
+        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
+        console.log("Erfolg"); 
+    },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+    }
+    })
+}
+/**
+* Search and load a given Route by its Start and display it on the Map
+*/
+function loadRouteFromDatabaseStart(){
+    var name = document.getElementById('routenload-area').value;
+    if(name.length==0) {
+        alert("Bitte Namen eingeben");
+    }   
+    $.ajax({
+        type: 'GET',
+        data: "",
+        url: "./start/routen/"+name,
+        async: false,
+    success: function(res){
+        console.log(res)
+        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
+        console.log("Erfolg"); 
+    },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+    }
+    })
+}
+/**
+* Search and load a given Route by its Ziel and display it on the Map
+*/
+function loadRouteFromDatabaseZiel(){
+    var name = document.getElementById('routenload-area').value;
+    if(name.length==0) {
+        alert("Bitte Namen eingeben");
+    }   
+    $.ajax({
+        type: 'GET',
+        data: "",
+        url: "./start/routen/"+name,
+        async: false,
+    success: function(res){
+        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
         console.log("Erfolg"); 
     },
     error: function(res){
