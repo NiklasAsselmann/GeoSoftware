@@ -21,13 +21,13 @@ router.get('/impressum', function(req, res, next) {
   res.render('impressum', { title: 'Geosoftware I - Endabgabe - Impressum' });
 });
 
-/* GET Jsonlist page that contains all ojects of our database. */
-router.get('/jsonlist', function(req, res) {
+/* GET database page that contains all objects of our database. */
+router.get('/database', function(req, res) {
   var db = req.db;
-  var collection = db.get('geojsons');
+  var collection = db.get('fachbereiche');
   collection.find({},{},function(e,docs){
-      res.render('jsonlist', {
-          "jsonlist" : docs, title: 'Database Objects'
+      res.render('database', {
+          'database' : docs, title: "Datenbank Objekte"
       });
   });
 });
@@ -184,6 +184,23 @@ router.delete('/start/routen/:name', function(req, res) {
   collection.deleteOne({name: req.params.name},function(e,docs){
       res.send(docs)
   });
+});
+
+router.get('/:name', function(req, res) {
+  var db = req.db;
+  var collection = db.get('institute');
+  collection.find({"name": req.params.name},{},function(e,docs){
+    var InstitutsObjekt = JSON.parse(docs[0].json);
+    JL().info(InstitutsObjekt);
+    JL().info(InstitutsObjekt.features[0].features[0].properties.name);
+    res.render('object', {title: 'Objekt: ' + JSON.stringify(InstitutsObjekt.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
+  JL().info("Currently retrieving object with id... "+req.params.name+ "...");  
+  }); 
+});
+
+// jsnlog.js on the client by default sends log messages to /jsnlog.logger, using POST.
+router.post('*.logger', function (req, res) {
+  jsnlog_nodejs(JL, req.body);
 });
 
 module.exports = router;

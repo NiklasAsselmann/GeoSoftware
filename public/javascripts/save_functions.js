@@ -28,7 +28,7 @@ function saveINToDatabase() {
     if(textfield.length==0) {
         alert("Bitte Namen eingeben");
     }   else {
-        if(image.length==0){
+        if(picture.length==0){
             alert("Bitte passendes Bild hinzufügen")
         }
         var data = drawnItems.toGeoJSON();
