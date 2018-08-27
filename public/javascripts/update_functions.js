@@ -8,22 +8,39 @@ function updateINinDatabase() {
     if(textfield.length==0) {
         alert("Bitte Namen eingeben");
     }   else {
-        if(image.length==0){
+        if(picture.length==0){
             alert("Bitte passendes Bild hinzufügen")
         }
+        else{
         var data = drawnItems.toGeoJSON();
         var dbObject = new INdatabaseobject(textfield, "",picture);
         dbObject.json = JSON.stringify(data);
         $.ajax({
-            type: 'PUT',
-            data: dbObject,
-            url: "./start/institute/"+name,
-            success: function(result){
-                console.log("Erfolg")
-            },
-            error: function(xhr,status,error){
+            type: 'GET',
+            data: "",
+            url: "./start/institute/"+textfield,
+            async: false,
+            success: function(res){   
+                if(res[0]==undefined){
+                    alert("Keine passendes Objekt zum Updaten in der DB")
+                }
+                else{
+                $.ajax({
+                    type: 'PUT',
+                    data: dbObject,
+                    url: "./start/institute/"+name,
+                    success: function(result){
+                        alert("Erfolgreich geupdated");
+                    },
+                });  
             }
-        });
+        },
+        error: function(res){
+            alert("Keine passendes Objekt zum bearbeiten in der DB")
+            }
+        })
+    }
+        
     }
 }
 /**
@@ -37,25 +54,39 @@ function updateFBinDatabase() {
         alert("Bitte Namen eingeben");
     }   
     else {
-        if(url.lenght==0){
-            alert("Bitte URL(s) angeben");
+        if(url.length==0){
+            alert("Bitte Websites angeben");
         }
         else{
-            if(institute.lenght==0){
+            if(institute.length==0){
                 alert("Bitte Institut(e) angeben");
             }
             else{
                 var dbObject = new FBdatabaseobject(name,url,institute);
-                console.log(dbObject)
                 $.ajax({
-                type: 'PUT',
-                url: "./start/fachbereiche/"+name,
-                success: function(result){
-                console.log("Erfolg")
+                    type: 'GET',
+                    data: "",
+                    url: "./start/fachbereiche/"+name,
+                    async: false,
+                success: function(res){
+                    if(res[0]==undefined){
+                        alert("Keine passendes Objekt zum Updaten in der DB")
+                    }
+                    else{
+                    $.ajax({
+                        type: 'PUT',
+                        data: dbObject,
+                        url: "./start/fachbereiche/"+name,
+                        success: function(result){
+                            alert("Erfolgreich geupdated");
+                        },
+                        });
+                    }
                 },
-                error: function(xhr,status,error){
+                error: function(res){
+                    alert("Keine passendes Objekt zum bearbeiten in der DB")
                 }
-                });
+                })
             }
         }
     }
@@ -77,14 +108,28 @@ function updateRouteinDatabase() {
     }  else {
       var dbObject = new Routedatabaseobject(name,start,startlat,startlng,ziel,ziellat,ziellng);
       $.ajax({
-        type: 'PUT',
-        data: dbObject,
+        type: 'GET',
+        data: "",
         url: "./start/routen/"+name,
-        success: function(result){
-        console.log("Erfolg")
-        },
-        error: function(xhr,status,error){
+        async: false,
+    success: function(res){
+        if(res[0]==undefined){
+            alert("Keine passendes Objekt zum Updaten in der DB")
         }
-        });
+        else{
+        $.ajax({
+            type: 'PUT',
+            data: dbObject,
+            url: "./start/routen/"+name,
+            success: function(result){
+                alert("Erfolgreich geupdated");
+            },
+            });
+        }
+    },
+    error: function(res){
+        alert("Keine passendes Objekt in der DB")
+    }
+    })
     }
   }

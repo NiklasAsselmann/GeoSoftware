@@ -7,7 +7,9 @@ function deleteLayer() {
     drawnItems.clearLayers();
     alert("Alles gelöscht")
     $("#delete").prop("disabled",true);
-    $("#download").prop("disabled",true);
+    $("#downloadIN").prop("disabled",true);
+    $("#updateIN").prop("disabled",true);
+
 }
 
 /**
@@ -24,14 +26,28 @@ function deleteINfromDatabase() {
     }   
     else {
         $.ajax({
-            type: 'DELETE',
+            type: 'GET',
+            data: "",
             url: "./start/institute/"+name,
-            success: function(result){
-                console.log("Erfolg")
-            },
-            error: function(xhr,status,error){
+            async: false,
+            success: function(res){   
+                if(res[0]==undefined){
+                    alert("Keine passendes Objekt zum löschen in der DB")
+                }
+                else{
+                $.ajax({
+                    type: 'DELETE',
+                    url: "./start/institute/"+name,
+                    success: function(result){
+                        alert("Erfolgreich gelöscht");
+                    },
+                });  
             }
-        });
+        },
+        error: function(res){
+            alert("Keine passendes Objekt zum bearbeiten in der DB")
+            }
+        })
     }
 }
 
@@ -40,16 +56,29 @@ function deleteFBfromDatabase() {
     if(name.length==0) {
         alert("Bitte Namen eingeben");
     }   
-    else {
-                $.ajax({
+    else { $.ajax({
+        type: 'GET',
+        data: "",
+        url: "./start/fachbereiche/"+name,
+        async: false,
+        success: function(res){   
+            if(res[0]==undefined){
+                alert("Keine passendes Objekt zum löschen in der DB")
+            }
+            else{
+            $.ajax({
                 type: 'DELETE',
                 url: "./start/fachbereiche/"+name,
                 success: function(result){
-                console.log("Erfolg")
+                    alert("Erfolgreich gelöscht");
                 },
-                error: function(xhr,status,error){
-                }
-                });
+            });  
+        }
+    },
+    error: function(res){
+        alert("Keine passendes Objekt zum bearbeiten in der DB")
+        }
+    })
         }
 }
 
@@ -58,14 +87,28 @@ function deleteRoutefromDatabase() {
     if(name.length==0) {
     alert("Bitte Namen eingeben");
     }  else {
-      $.ajax({
-        type: 'DELETE',
-        url: "./start/routen/"+name,
-        success: function(result){
-        console.log("Erfolg")
+        $.ajax({
+            type: 'GET',
+            data: "",
+            url: "./start/routen/"+name,
+            async: false,
+            success: function(res){   
+                if(res[0]==undefined){
+                    alert("Keine passendes Objekt zum löschen in der DB")
+                }
+                else{
+                $.ajax({
+                    type: 'DELETE',
+                    url: "./start/routen/"+name,
+                    success: function(result){
+                        alert("Erfolgreich gelöscht");
+                    },
+                });  
+            }
         },
-        error: function(xhr,status,error){
-        }
-        });
+        error: function(res){
+            alert("Keine passendes Objekt zum bearbeiten in der DB")
+            }
+        })
     }
   }

@@ -83,9 +83,11 @@ map.on('draw:created', function(e) {
       geoJSONDrawn = [currentGeojson];
     }
 
-    $('button#download').attr("disabled", false);
+    $('button#downloadIN').attr("disabled", false);
     drawnItems.addLayer(layer);
     $('button#delete').attr("disabled", false);
+    drawnItems.addLayer(layer);
+    $('button#updateIN').attr("disabled", false);
     drawnItems.addLayer(layer);
 });
 

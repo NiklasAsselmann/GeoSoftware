@@ -20,28 +20,6 @@ router.get('/map', function(req, res, next) {
 router.get('/impressum', function(req, res, next) {
   res.render('impressum', { title: 'Geosoftware I - Endabgabe - Impressum' });
 });
-
-router.get('/database', function(req, res) {
-  var db = req.db;
-  var collection = db.get('fachbereiche');
-  collection.find({},{},function(e,docs){
-      res.render('database', {
-          'database' : docs, title: "Datenbank Objekte"
-      });
-  });
-});
-
-router.get('/:name', function(req, res) {
-  var db = req.db;
-  var collection = db.get('institute');
-  collection.find({"name": req.params.name},{},function(e,docs){
-    var baba = JSON.parse(docs[0].json);
-    JL().info(baba.features[0].features[0].properties.name);
-    res.render('object', {title: 'Objekt: ' + JSON.stringify(baba.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
-  JL().info("Currently retrieving object with id... "+req.params.id+ "...");  
-  }); 
-});
-
 /*
 * handling database load request when clicking button in map
 */
@@ -83,7 +61,7 @@ router.post('/start/institute', function(req, res) {
       JL().error(document.name+" wasn't succesfully saved");
     } else {
       res.send(document);    
-      JL().info(document.name+" saved to the INdatabase");
+      JL().info(document.name+" saved to the Institutdatabase");
     }
   });
 });
@@ -97,7 +75,7 @@ router.post('/start/fachbereiche', function(req, res) {
       JL().error(document.name+" wasn't succesfully saved");
     } else {
       res.send(document);    
-      JL().info(document.name+" saved to the FBdatabase");
+      JL().info(document.name+" saved to the Fachbereichdatabase");
     }
   });
 });
@@ -125,6 +103,7 @@ router.put('/start/institute/:name', function(req, res) {
   collection.update({name: req.params.name},{name: req.body.name, json: req.body.json, picture:req.body.picture},
     function(e,docs){
       res.send(docs)
+      JL().info(document.name+" updated in the Institutedatabase");
   });
 });
 
@@ -135,6 +114,7 @@ router.put('/start/fachbereiche/:name', function(req, res) {
     collection.update({name: req.params.name},{name: req.body.name, website: req.body.website, institute:req.body.institute},
     function(e,docs){
       res.send(docs)
+      JL().info(document.name+" updated in the Fachbereichdatabase");
   });
 });
 
@@ -145,6 +125,7 @@ router.put('/start/routen/:name', function(req, res) {
   collection.update({name: req.params.name},{name: req.body.name, start: req.body.start, ziel: req.body.ziel},
     function(e,docs){
       res.send(docs)
+      JL().info(document.name+" updated in the Routesdatabase");
   });
 });
 /*
@@ -156,6 +137,7 @@ router.delete('/start/institute/:name', function(req, res) {
   var json;
   collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
+      JL().info(document.name+" deleted from the Institutedatabase");
   });
 });
 
@@ -165,6 +147,7 @@ router.delete('/start/fachbereiche/:name', function(req, res) {
   var json;
   collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
+      JL().info(document.name+" deleted from the Fachbereichdatabase");
   });
 });
 
@@ -174,18 +157,8 @@ router.delete('/start/routen/:name', function(req, res) {
   var json;
   collection.remove({name: req.params.name},function(e,docs){
       res.send(docs)
+      JL().info(document.name+" deleted from the Routendatabase");
   });
-});
-
-router.get('/:name', function(req, res) {
-  var db = req.db;
-  var collection = db.get('institute');
-  collection.find({"name": req.params.name},{},function(e,docs){
-    var baba = JSON.parse(docs[0].json);
-    JL().info(baba.features[0].features[0].properties.name);
-    res.render('object', {title: 'Objekt: ' + JSON.stringify(baba.features[0].features[0].properties.name), text: JSON.stringify(docs[0].json), dbName:JSON.stringify(docs[0].name)});
-  JL().info("Currently retrieving object with id... "+req.params.name+ "...");  
-  }); 
 });
 
 // jsnlog.js on the client by default sends log messages to /jsnlog.logger, using POST.

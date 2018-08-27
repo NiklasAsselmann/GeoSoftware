@@ -177,17 +177,20 @@ function loadINFromDatabase(){
         url: "./start/institute/"+name,
         async: false,
         success: function(res){
-            var instDB = JSON.parse(res[0].json);
-            var layer = L.geoJson(instDB.features[0]).addTo(map);
-            var marker = L.marker([instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0]]);             
-            marker.addTo(map).bindPopup("<h5>"+instDB.features[0].features[0].properties.name+"<h5><img src="+instDB.features[0].features[0].properties.img+" width='200'><br>").openPopup();
-            drawnItems.addLayer(layer);
-            drawnItems.addLayer(marker);
-            navToMensa(instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0])
-            console.log("Erfolg");     
+            if(res[0]==undefined){
+                alert("Keine passendes Objekt in der DB")
+            }
+            else{
+                var instDB = JSON.parse(res[0].json);
+                var layer = L.geoJson(instDB.features[0]).addTo(map);
+                var marker = L.marker([instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0]]);             
+                marker.addTo(map).bindPopup("<h5>"+instDB.features[0].features[0].properties.name+"<h5><img src="+instDB.features[0].features[0].properties.img+" width='200'><br>").openPopup();
+                drawnItems.addLayer(layer);
+                drawnItems.addLayer(marker);
+                navToMensa(instDB.features[1].geometry.coordinates[1], instDB.features[1].geometry.coordinates[0])     
+            }
     },
     error: function(res){
-        console.log(res)
         alert("Keine passendes Objekt in der DB")
         }
     })
@@ -206,8 +209,12 @@ function loadFBFromDatabase(){
         url: "./start/fachbereiche/"+name,
         async: false,
     success: function(res){
-        document.getElementById('loadedFB').innerHTML = "Fachschaftsname(Abkurzung): "+res[0].name+"\nInstitute:"+res[0].institute+"\nWebsites:"+res[0].website
-        console.log("Erfolg"); 
+        if(res[0]==undefined){
+            alert("Keine passendes Objekt in der DB")
+            }
+        else{
+            document.getElementById('loadedFB').innerHTML = "Fachschaftsname(Abkurzung): "+res[0].name+"\nInstitute:"+res[0].institute+"\nWebsites:"+res[0].website
+        }
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")
@@ -228,8 +235,12 @@ function loadRouteFromDatabase(){
         url: "./start/routen/"+name,
         async: false,
     success: function(res){
-        control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
-        console.log("Erfolg"); 
+        if(res[0]==undefined){
+            alert("Keine passendes Objekt in der DB")
+            }
+        else{
+            control.setWaypoints([L.latLng(res[0].startlat,res[0].startlng),L.latLng(res[0].ziellat,res[0].ziellng)]);
+        }
     },
     error: function(res){
         alert("Keine passendes Objekt in der DB")

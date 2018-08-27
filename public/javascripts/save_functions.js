@@ -39,7 +39,7 @@ function saveINToDatabase() {
             data: dbObject,
             url: "./start/institute",
             success: function(result){
-                console.log("Erfolg")
+                alert("Erfolgreich gespeichert");
             },
             error: function(xhr,status,error){
             }
@@ -57,11 +57,11 @@ function saveFBToDatabase() {
         alert("Bitte Namen eingeben");
     }   
     else {
-        if(url.lenght==0){
-            alert("Bitte URL(s) angeben");
+        if(url.length==0){
+            alert("Bitte Websites angeben");
         }
         else{
-            if(institute.lenght==0){
+            if(institute.length==0){
                 alert("Bitte Institut(e) angeben");
             }
             else{
@@ -71,7 +71,7 @@ function saveFBToDatabase() {
                 data: dbObject,
                 url: "./start/fachbereiche",
                 success: function(result){
-                console.log("Erfolg")
+                    alert("Erfolgreich gespeichert");
                 },
                 error: function(xhr,status,error){
                 }
@@ -100,26 +100,37 @@ class Routedatabaseobject {
 function saveRouteToDatabase() {
     var name = document.getElementById("routenname-area").value;
     var waypoint=control.getWaypoints()
-    var ziel = waypoint[1].name
-    var ziellat = waypoint[1].latLng.lat
-    var ziellng = waypoint[1].latLng.lng
-    var start = waypoint[0].name
-    var startlat = waypoint[0].latLng.lat
-    var startlng = waypoint[0].latLng.lng
-    if(name.length==0) {
-    alert("Bitte Namen eingeben");
-    }  else {
-      var dbObject = new Routedatabaseobject(name,start,startlat,startlng,ziel,ziellat,ziellng);
-      $.ajax({
-        type: 'POST',
-        data: dbObject,
-        url: "./start/routen",
-        success: function(result){
-        console.log("Erfolg")
-        },
-        error: function(xhr,status,error){
+    if(name.length==0){
+        alert("Bitte Namen angeben")
+    }
+    else{
+        if(waypoint[0].latLng==null){
+            alert("Bitte Start angeben")
         }
-        });
+        else{
+            if(waypoint[1].latLng==null) {
+            alert("Bitte Ziel eingeben");
+        }
+            else {
+                var ziel = waypoint[1].name
+                var start = waypoint[0].name
+                var ziellat = waypoint[1].latLng.lat
+                var ziellng = waypoint[1].latLng.lng
+                var startlat = waypoint[0].latLng.lat
+            var startlng = waypoint[0].latLng.lng
+            var dbObject = new Routedatabaseobject(name,start,startlat,startlng,ziel,ziellat,ziellng);
+            $.ajax({
+                type: 'POST',
+                data: dbObject,
+                url: "./start/routen",
+                success: function(result){
+                    alert("Erfolgreich gespeichert");
+                },
+                error: function(xhr,status,error){
+                }
+                });
+            }
+         }
     }
   }
 
