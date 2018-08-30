@@ -1,7 +1,7 @@
 version: "2"
 services:
    node:
-      image: "mynodejs:1.0"
+      image: "vanilleeis23/mynodejs:1.0"
       working_dir: /home/node/
       ports:
         - "8080:3000"
