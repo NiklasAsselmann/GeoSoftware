@@ -6,7 +6,10 @@ services:
       ports:
         - "8080:3000"
       command: "npm start"
+      links:
+        - mongo
    mongo:
+      container_name: mongo
       image: "mongo:4.0"
       volumes:
         - ./mongo:/data/db
