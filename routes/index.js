@@ -53,7 +53,6 @@ router.get('/start/routen/:name', function(req, res) {
 * handling database insert request when clicking button in map
 */
 router.post('/start/institute', function(req, res) {
-  console.log(req.params)
   var db = req.db;
   var document = req.body;
   db.collection('institute').insert(document, function(err, result) {
@@ -67,7 +66,6 @@ router.post('/start/institute', function(req, res) {
 });
 
 router.post('/start/fachbereiche', function(req, res) {
-  console.log(req.params)
   var db = req.db;
   var document = req.body;
   db.collection('fachbereiche').insert(document, function(err, result) {
@@ -81,7 +79,6 @@ router.post('/start/fachbereiche', function(req, res) {
 });
 
 router.post('/start/routen', function(req, res) {
-  console.log(req.params)
   var db = req.db;
   var document = req.body;
   db.collection('routen').insert(document, function(err, result) {
